@@ -102,6 +102,7 @@ extension HomeMap: UIViewRepresentable{
 
     func getAddress(address:String, completion: @escaping (CLLocationCoordinate2D) -> Void){
 
+        // Google Key
         let key : String = "Private Key"
         let postParameters:[String: Any] = [ "address": address, "key":key]
         let url : String = "https://maps.googleapis.com/maps/api/geocode/json"
