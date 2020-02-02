@@ -9,19 +9,15 @@
 import SwiftUI
 import MapKit
 
-struct MarkCell: View {
+struct TestMarkCell: View {
     
     var name: String = "버튼 이름"
     var nameColor: Color
     var bgColor: Color
-    var location: CLLocation
-    var address: String = ""
-    
-    var didClick: (Bool) -> Void
     
     var body: some View {
         Button(action: {
-            self.didClick(true)
+            
         }){
             HStack{
                 Text(name)

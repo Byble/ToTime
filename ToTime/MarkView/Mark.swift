@@ -16,5 +16,6 @@ struct Mark: Identifiable {
     let nameColor: Color
     let bgColor: Color
     let location: CLLocation
+    let address: String
 }
 

@@ -18,6 +18,10 @@ struct ContentView {
     @State var marks: [Mark] = []
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     let homeMapViewEnvironment = HomeMapViewEnvironment()
+    let quickMapViewEnvironment = QuickMapViewEnvironment()
+    
+    @State var isQuick = false
+    @State var selectedMark: [Mark] = []
 }
 
 extension ContentView: View{
@@ -71,7 +75,7 @@ extension ContentView: View{
                             .padding(.trailing, 10)
                             .padding(.bottom, 30)
                         }
-//
+
                         VStack(alignment: .leading){
                             HStack(alignment: .center){
                                 Text("즐겨찾기")
@@ -86,6 +90,7 @@ extension ContentView: View{
                                 .sheet(isPresented: self.$showAddMark) {
                                     AddMarkView(didAddMark: {
                                         mark in
+                                        print(mark)
                                         self.marks.append(mark)
                                     })
                                 }
@@ -97,14 +102,29 @@ extension ContentView: View{
                             QGrid(marks, columns: 2){
                                 mark in
                                 MarkCell(name: mark.name,
-                                        nameColor: mark.nameColor,
-                                        bgColor: mark.bgColor,
-                                        location: mark.location)
-                                    .padding()
+                                    nameColor: mark.nameColor,
+                                    bgColor: mark.bgColor,
+                                    location: mark.location,
+                                    address: mark.address,
+                                    didClick: {_ in
+                                        self.selectedMark.append(mark)
+                                        self.isQuick = true
+                                })
+                                .padding()
+                            }
+                        }
+                        if !selectedMark.isEmpty{
+                            NavigationLink(destination: QuickMapView(address: selectedMark.first!.address, location: selectedMark.first!.location, isQuick: self.$isQuick, isNavigationBarHidden: self.$isNavigationBarHidden).environmentObject(quickMapViewEnvironment)
+                                .onDisappear(perform: {
+                                    self.selectedMark.removeAll()
+                                }),
+                                isActive: self.$isQuick){
+                                EmptyView()
                             }
                         }
                     }
-                }                
+                }
+                
                 .navigationBarTitle("")
                 .navigationBarHidden(self.isNavigationBarHidden)
                 .onAppear {
@@ -120,9 +140,4 @@ extension ContentView: View{
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
     }
     
-}
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
-    }
 }

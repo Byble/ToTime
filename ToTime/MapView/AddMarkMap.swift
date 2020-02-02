@@ -1,5 +1,5 @@
 //
-//  HomeMapView.swift
+//  AddMarkMapView.swift
 //  ToTime
 //
 //  Created by 김민국 on 2020/01/22.
@@ -12,38 +12,29 @@ import CoreLocation
 import Alamofire
 import SwiftyJSON
 
-enum ACTION{
-    case Location, Alert
-}
 
-struct HomeMap{
-    @EnvironmentObject var homeMapViewEnvironment: HomeMapViewEnvironment
-    
+struct AddMarkMap{
     @Binding var location: CLLocation
     var isLoc: Bool
     
     @Binding var isChange: Bool
     
     @Binding var isFocus: Bool
-    @Binding var setDistance: String
     @Binding var errorField: String
         
-    @Binding var showAlert: Bool
-    @Binding var activeAlert: ALERT
     @Binding var isLoading: Bool
-    @Binding var distance: Int
+    @Binding var setAddress: String
     
-    var address: String
-    var setStart: (Bool) -> Void
+    let address: String
     
     @State var locationManager: CLLocationManager = CLLocationManager()
-    @State var locationNotificationScheduler: LocationNotificationScheduler = LocationNotificationScheduler()
+
     @State var mapView: MKMapView = MKMapView()
     
     @State var isLocationSet: Bool = false
 }
 
-extension HomeMap: UIViewRepresentable{
+extension AddMarkMap: UIViewRepresentable{
     func setupManager(context: Context){
         locationManager.delegate = context.coordinator
         locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
@@ -56,7 +47,6 @@ extension HomeMap: UIViewRepresentable{
     }
     
     func makeUIView(context: Context) -> MKMapView {
-        self.locationNotificationScheduler.delegate = context.coordinator
         setupManager(context: context)
         mapView.delegate = context.coordinator
         mapView.showsUserLocation = true
@@ -80,21 +70,7 @@ extension HomeMap: UIViewRepresentable{
         return mapView
     }
     
-    func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<HomeMap>) {
-        
-        homeMapViewEnvironment.didIsStartChange = {
-            if self.homeMapViewEnvironment.isStart!{
-                if self.isLocationSet{
-                    self.scheduleLocationNotification()
-                }else{
-                    self.setStart(false)
-                    self.errorField = ""
-                }
-            }else{
-                self.stopLocationNotification()
-                self.errorField = "" 
-            }
-        }
+    func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<AddMarkMap>) {
         let status = CLLocationManager.authorizationStatus()
         if isFocus{
             if status == .authorizedAlways || status == .authorizedWhenInUse{
@@ -120,29 +96,14 @@ extension HomeMap: UIViewRepresentable{
                 guard "OK" == json["status"] else{
                     return
                 }
+                
                 let lat = json["results"][0]["geometry"]["location"]["lat"].doubleValue
                 let lon = json["results"][0]["geometry"]["location"]["lng"].doubleValue
                 let loc = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                if let loc = self.locationManager.location{
-                    self.distance = Int(loc.distance(from: CLLocation(latitude: lat, longitude: lon)))
-                }
+                self.setAddress = json["results"][0]["formatted_address"].stringValue
                 self.errorField = json["results"][0]["formatted_address"].stringValue
                 completion(loc)
             }
-        }
-    }
-    func scheduleLocationNotification(){
-        let status = CLLocationManager.authorizationStatus()
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            locationManager.startUpdatingLocation()
-        }
-        self.showAlert = true
-        self.activeAlert = .Schedule
-    }
-    func stopLocationNotification(){
-        let status = CLLocationManager.authorizationStatus()
-        if status == .authorizedAlways || status == .authorizedWhenInUse {
-            locationManager.stopUpdatingLocation()
         }
     }
     
@@ -151,15 +112,15 @@ extension HomeMap: UIViewRepresentable{
     }
     
     // Mark - Coorinator
-    final class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate, LocationNotificationSchedulerDelegate{
-        var parent: HomeMap
+    final class Coordinator: NSObject, MKMapViewDelegate, CLLocationManagerDelegate{
+        var parent: AddMarkMap
 
         var area:String = ""
         var locality:String = ""
         var fare:String = ""
         var isLoading: Binding<Bool>
         
-        init(_ parent: HomeMap, loading: Binding<Bool>) {
+        init(_ parent: AddMarkMap, loading: Binding<Bool>) {
             self.parent = parent
             self.isLoading = loading
         }
@@ -187,16 +148,12 @@ extension HomeMap: UIViewRepresentable{
                                     self.area = (place.administrativeArea)!
                                     self.locality = (place.locality)!
                                     self.fare = (place.thoroughfare)!
-                                    self.parent.address = "\(self.area) \(self.locality) \(self.fare)"
-                                    self.parent.errorField = self.parent.address
+                                    self.parent.setAddress = "\(self.area) \(self.locality) \(self.fare)"
+                                    self.parent.errorField = "\(self.area) \(self.locality) \(self.fare)"
                                     self.parent.location = center
                                     let annotation = MarkAnnotation(coordinate: center.coordinate)
                                     mapView.addAnnotation(annotation)
                                     self.parent.isLocationSet = true
-                                    
-                                    let loc = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
-                                    
-                                    self.parent.distance = Int(loc.distance(from: center))
                                 }else{
                                     self.parent.errorField = "위치 조정을 다시 해주세요"
                                 }
@@ -221,64 +178,17 @@ extension HomeMap: UIViewRepresentable{
                         }
                     }
                 }
-                
-            }
-            if (parent.homeMapViewEnvironment.isStart ?? false) == true{
-                if let distance = manager.location?.distance(from: parent.location){
-                    let sDis = Int(parent.setDistance) ?? 0
-                    self.parent.errorField = ""
-                    self.parent.distance = Int(distance)
-                    
-                    if Int(distance) < sDis{
-                        parent.setStart(false)
-                        if UIApplication.shared.applicationState == .active{
-                            parent.activeAlert = .Reach
-                            parent.showAlert = true
-                        }else{
-                            let locInfo = LocationNotificationInfo(notificationId: "reach_notification_id", locationId: "reach_location_id", title: "도착하였습니다.", body: "더 많은 정보를 보려면 클릭", data: ["위치": "지정한 \(parent.address)에서 \(parent.setDistance) 거리인 위치에 도착하였습니다."])
-                            parent.locationNotificationScheduler.request(with: locInfo)
-                            parent.stopLocationNotification()
-                        }
-                    }
-                }
             }
         }
         func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
             print("Failed to find user's location: \(error.localizedDescription)")
         }
-        func locationPermissionDenied() {
-            presentSettingsAlert(action: .Location)
-        }
-        
-        func notificationPermissionDenied() {
-            presentSettingsAlert(action: .Alert)
-        }
-        
-        func notificationScheduled(error: Error?) {
-            if let _ = error {
-                parent.activeAlert = .ScheduleError
-                self.parent.showAlert = true
-            }
-        }
-        
-        func userNotificationCenter(_ center: UNUserNotificationCenter,
-                                    didReceive response: UNNotificationResponse,
-                                    withCompletionHandler completionHandler: @escaping () -> Void) {
-            if response.notification.request.identifier == "reach_notification_id" {
-                
-            }
-            completionHandler()
-        }
-        
-        private func presentSettingsAlert(action: ACTION) {
-            switch action {
-            case .Location:
-                parent.activeAlert = .LocationSet
-            case .Alert:
-                parent.activeAlert = .AlertSet
-            }
-            self.parent.showAlert = true
-        }
     }
     /// - Coordinator
+}
+
+struct AddMarkMap_Previews: PreviewProvider {
+    static var previews: some View {
+        AddMarkMap(location: Binding.constant(CLLocation(latitude: 0.0, longitude: 0.0)), isLoc: false, isChange: Binding.constant(false), isFocus: Binding.constant(false), errorField: Binding.constant(""), isLoading: Binding.constant(false), setAddress: Binding.constant(""), address: "")
+    }
 }

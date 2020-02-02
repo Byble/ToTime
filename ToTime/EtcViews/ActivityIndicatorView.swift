@@ -30,7 +30,6 @@ struct ActivityIndicatorView<Content>: View where Content: View {
                     .foregroundColor(Color.primary)
                     .cornerRadius(20)
                 }
-                Text(self.isShowing ? "True":"false")
             }
         }
     }

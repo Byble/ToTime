@@ -1,5 +1,5 @@
 //
-//  HomeMapView.swift
+//  QuickMapView.swift
 //  ToTime
 //
 //  Created by 김민국 on 2020/01/22.
@@ -9,42 +9,28 @@
 import SwiftUI
 import MapKit
 
-enum ALERT{
-    case None
-    case ScheduleError
-    case Schedule
-    case Reach
-    case LocationSet
-    case AlertSet
-}
-
-struct HomeMapView: View {
-    @EnvironmentObject var homeMapViewEnvironment: HomeMapViewEnvironment
+struct QuickMapView: View {
+    @EnvironmentObject var quickMapViewEnvironment: QuickMapViewEnvironment
     
-    @State private var isChange: Bool = false
     @State private var setDistance: String = ""
     @State var isFocus: Bool = false
     @State private var errorField: String = ""
     
     @State private var showAlert: Bool = false
-    @State private var location: CLLocation = CLLocation(latitude: 0.0, longitude: 0.0)
-    @State private var activeAlert: ALERT = .None
-    
     @State private var showError: Bool = false
-    
-    @State var isLoading: Bool = false
+    @State private var activeAlert: ALERT = .None
     @State var distance: Int = 0
     
-    @Binding var isNavigationBarHidden: Bool
-    var isLoc: Bool = false
-    var address: String = ""
+    @State var isLoading: Bool = false
     
-    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
-
+    let address: String
+    let location: CLLocation
+    @Binding var isQuick: Bool
+    @Binding var isNavigationBarHidden: Bool
+    
     var body: some View {
         ZStack{
-            NavigationItemContainer{
-                
+            NavigationItemContainer{                
                 VStack{
                     if self.distance > 0{
                         Text("목적지 까지 \(self.distance) m")
@@ -59,6 +45,7 @@ struct HomeMapView: View {
                     }
                     
                     
+                    
                     if !self.errorField.isEmpty{
                         Text(self.errorField)
                         .font(.title)
@@ -66,12 +53,12 @@ struct HomeMapView: View {
                     
                     ZStack{
                         ZStack(alignment: .topTrailing){
-                            HomeMap(location: self.$location, isLoc: self.isLoc, isChange: self.$isChange, isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, isLoading: self.$isLoading, distance: self.$distance, address: self.address, setStart: {
-                                self.homeMapViewEnvironment.isStart = $0
+                            QuickMap(isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, distance: self.$distance, isLoading: self.$isLoading, address: self.address, location: self.location, setStart: {
+                                self.quickMapViewEnvironment.isStart = $0
                             })
-                                .onAppear(perform: {
-                                    self.isLoading = true
-                                })
+                            .onAppear(perform: {
+                                self.isLoading = true
+                            })
                             .alert(isPresented: self.$showAlert){
                                 switch self.activeAlert{
                                     case .None:
@@ -113,68 +100,51 @@ struct HomeMapView: View {
                             }.padding(.top, 30)
                                 .padding(.trailing, 10)
                         }
-                        ZStack(alignment: .center) {
-                            if self.isChange{
-                                Image(systemName: "circle")
-                            }
-                        }
                     }
                     
                     
                     Spacer()
                     HStack{
-                        Spacer()
                         Button(action: {
                             if self.setDistance != "" && (self.distance > Int(self.setDistance) ?? 0){
-                                if (self.homeMapViewEnvironment.isStart ?? false) == false{
-                                    self.homeMapViewEnvironment.isStart = true
-                                    self.isChange = false
+                                if (self.quickMapViewEnvironment.isStart ?? false) == false{
+                                    self.quickMapViewEnvironment.isStart = true
                                     self.isFocus = true
                                 }else{
-                                    self.homeMapViewEnvironment.isStart = false
-                                    self.isChange = false
+                                    self.quickMapViewEnvironment.isStart = false
                                     self.isFocus = false
                                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                                 }
                             }else{
                                 self.showError = true
                             }
-                            
                         }){
-                            if (self.homeMapViewEnvironment.isStart ?? false) == false{
+                            if (self.quickMapViewEnvironment.isStart ?? false) == false{
+                                
                                 Text("시작하기")
                                 .padding()
                             }else{
                                 Text("중지하기")
                                 .padding()
                             }
-                        }.alert(isPresented: self.$showError) {
-                            return self.defaultAlert(title: "설정된 거리 오류", message: "목적지까지 거리보다 짧은 거리를 적어주세요")
                         }
-                        
-                        Spacer()
-                        Button(action: {
-                            self.isChange = true
-                            self.homeMapViewEnvironment.isStart = false
-                        }){
-                            Text("변경하기")
-                            .padding()
-                        }
-                        
-                        Spacer()
+                    }
+                    .alert(isPresented: self.$showError) {
+                        return self.defaultAlert(title: "설정된 거리 오류", message: "목적지까지 거리보다 짧은 거리를 적어주세요")
                     }
                     Spacer()
                 }
                 .onAppear {
                     self.isNavigationBarHidden = false
                 }
-                .onDisappear{
-                    self.homeMapViewEnvironment.isStart = false
+                .onDisappear {
+                    self.quickMapViewEnvironment.isStart = false
                 }
             }
             .blur(radius: self.isLoading ? CGFloat(3) : CGFloat(0))
             ActivityIndicator(style: .large, isLoading: self.$isLoading)
-            
+        }.onDisappear {
+            self.isQuick = false
         }
     }
 
@@ -194,11 +164,12 @@ struct HomeMapView: View {
     private func toggleShowAlert(){
         self.showAlert = false
         self.activeAlert = .None
+        self.showError = false
     }
 }
 //
-//struct HomeMapView_Previews: PreviewProvider {
+//struct QuickMapView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        HomeMapView(isNavigationBarHidden: Binding.constant(true), address: "서울")
+//        QuickMapView(isNavigationBarHidden: Binding.constant(true), address: "서울")
 //    }
 //}

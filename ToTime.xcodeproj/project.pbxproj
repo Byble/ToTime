@@ -34,6 +34,13 @@
 		8CA50DDC23D5FC6500A7D73B /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA50DDB23D5FC6500A7D73B /* Mark.swift */; };
 		8CC0983D23DE941800382674 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC0983C23DE941800382674 /* ActivityIndicator.swift */; };
 		8CC0983F23DEAE7F00382674 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */; };
+		8CF1B9AE23E6C66500B5F236 /* AddMarkMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */; };
+		8CF1B9B023E6C66E00B5F236 /* AddMarkMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9AF23E6C66E00B5F236 /* AddMarkMapView.swift */; };
+		8CF1B9B423E6D64B00B5F236 /* QuickMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */; };
+		8CF1B9B623E6D65100B5F236 /* QuickMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B523E6D65100B5F236 /* QuickMapView.swift */; };
+		8CF1B9B823E6D67100B5F236 /* QuickMapViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */; };
+		8CF1B9BA23E6FA9500B5F236 /* TestMarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */; };
+		8CF1B9BC23E7152E00B5F236 /* GoogleKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9BB23E7152E00B5F236 /* GoogleKey.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -84,6 +91,13 @@
 		8CA50DDB23D5FC6500A7D73B /* Mark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
 		8CC0983C23DE941800382674 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
+		8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkMap.swift; sourceTree = "<group>"; };
+		8CF1B9AF23E6C66E00B5F236 /* AddMarkMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkMapView.swift; sourceTree = "<group>"; };
+		8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMap.swift; sourceTree = "<group>"; };
+		8CF1B9B523E6D65100B5F236 /* QuickMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMapView.swift; sourceTree = "<group>"; };
+		8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMapViewEnvironment.swift; sourceTree = "<group>"; };
+		8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMarkCell.swift; sourceTree = "<group>"; };
+		8CF1B9BB23E7152E00B5F236 /* GoogleKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -148,6 +162,7 @@
 				8C984D8923D4A53900F1540C /* LaunchScreen.storyboard */,
 				8C984D8C23D4A53900F1540C /* Info.plist */,
 				8C984D8623D4A53900F1540C /* Preview Content */,
+				8CF1B9BB23E7152E00B5F236 /* GoogleKey.swift */,
 			);
 			path = ToTime;
 			sourceTree = "<group>";
@@ -194,6 +209,11 @@
 				8C2C655B23D8876D0001FCBE /* HomeMap.swift */,
 				8C2C657723DC8F220001FCBE /* HomeMapViewEnvironment.swift */,
 				8C2C655D23D8949D0001FCBE /* HomeMapView.swift */,
+				8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */,
+				8CF1B9AF23E6C66E00B5F236 /* AddMarkMapView.swift */,
+				8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */,
+				8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */,
+				8CF1B9B523E6D65100B5F236 /* QuickMapView.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -205,6 +225,7 @@
 				8C2A382F23D6D87000BBD1A1 /* AddMarkView.swift */,
 				8CA50DD923D5FC3200A7D73B /* MarkCell.swift */,
 				8CA50DDB23D5FC6500A7D73B /* Mark.swift */,
+				8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */,
 			);
 			path = MarkView;
 			sourceTree = "<group>";
@@ -364,17 +385,24 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C2C656E23DBFE190001FCBE /* LocationNotificationInfo.swift in Sources */,
+				8CF1B9AE23E6C66500B5F236 /* AddMarkMap.swift in Sources */,
 				8CA50DDA23D5FC3200A7D73B /* MarkCell.swift in Sources */,
 				8C2A383023D6D87000BBD1A1 /* AddMarkView.swift in Sources */,
 				8C984D7F23D4A53800F1540C /* AppDelegate.swift in Sources */,
 				8C2A383223D743AD00BBD1A1 /* ColorPickerView.swift in Sources */,
 				8C2C656C23DBFDF70001FCBE /* LocationNotificationSchedulerDelegate.swift in Sources */,
 				8C2C655E23D8949D0001FCBE /* HomeMapView.swift in Sources */,
+				8CF1B9BC23E7152E00B5F236 /* GoogleKey.swift in Sources */,
 				8C2C656823DBDB1B0001FCBE /* MarkAnnotation.swift in Sources */,
+				8CF1B9B023E6C66E00B5F236 /* AddMarkMapView.swift in Sources */,
+				8CF1B9BA23E6FA9500B5F236 /* TestMarkCell.swift in Sources */,
+				8CF1B9B423E6D64B00B5F236 /* QuickMap.swift in Sources */,
+				8CF1B9B823E6D67100B5F236 /* QuickMapViewEnvironment.swift in Sources */,
 				8C984D8123D4A53800F1540C /* SceneDelegate.swift in Sources */,
 				8C984D8323D4A53800F1540C /* ContentView.swift in Sources */,
 				8C2C657623DC33D50001FCBE /* NavigationItemContainer.swift in Sources */,
 				8C2C655C23D8876D0001FCBE /* HomeMap.swift in Sources */,
+				8CF1B9B623E6D65100B5F236 /* QuickMapView.swift in Sources */,
 				8CC0983F23DEAE7F00382674 /* ActivityIndicatorView.swift in Sources */,
 				8CA50DDC23D5FC6500A7D73B /* Mark.swift in Sources */,
 				8C2C656423D8A5370001FCBE /* Background.swift in Sources */,
