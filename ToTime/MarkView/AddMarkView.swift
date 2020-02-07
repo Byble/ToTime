@@ -80,7 +80,16 @@ struct AddMarkView: View {
 
                                     NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: $isNavigationBarHidden, setLocation: $location, setAddress: $fullLoc, isLoc: true, address: locName)) {
                                         Image(systemName: "magnifyingglass").foregroundColor(Color.gray)
+                                        .padding(.all, 20)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Color.gray, lineWidth: 2)
+                                        )
+                                        .background(lightGreyColor)
                                     }
+                                }
+                                NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: $isNavigationBarHidden, setLocation: $location, setAddress: $fullLoc, isLoc: false, address: locName)) {
+                                    Image(systemName: "map").foregroundColor(Color.gray)
                                     .padding(.all, 20)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
@@ -88,15 +97,6 @@ struct AddMarkView: View {
                                     )
                                     .background(lightGreyColor)
                                 }
-                                NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: $isNavigationBarHidden, setLocation: $location, setAddress: $fullLoc, isLoc: false, address: locName)) {
-                                    Image(systemName: "map").foregroundColor(Color.gray)
-                                }
-                                .padding(.all, 20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.gray, lineWidth: 2)
-                                )
-                                .background(lightGreyColor)
                             }
                             .padding(.leading, 10)
                             .padding(.trailing, 10)

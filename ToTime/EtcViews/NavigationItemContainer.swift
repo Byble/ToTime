@@ -16,10 +16,9 @@ struct NavigationItemContainer<Content>: View where Content: View {
         self.presentationMode.wrappedValue.dismiss()
     }) {
         HStack {
-            Image(systemName: "back_icon")
+            Image(systemName: "chevron.left")
                 .aspectRatio(contentMode: .fit)
-                .foregroundColor(.black)
-            Text("Go back")
+            Text("back")
         }
         }
     }

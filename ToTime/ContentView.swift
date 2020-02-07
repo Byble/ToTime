@@ -53,7 +53,16 @@ extension ContentView: View{
 
                                     NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: true, address: self.locName).environmentObject(homeMapViewEnvironment)) {
                                         Image(systemName: "magnifyingglass").foregroundColor(Color.gray)
+                                        .padding(.all, 20)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Color.gray, lineWidth: 2)
+                                        )
+                                        .background(lightGreyColor)
                                     }
+                                }
+                                NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: false, address:"").environmentObject(homeMapViewEnvironment)) {
+                                    Image(systemName: "map").foregroundColor(Color.gray)
                                     .padding(.all, 20)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
@@ -61,15 +70,6 @@ extension ContentView: View{
                                     )
                                     .background(lightGreyColor)
                                 }
-                                NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: false, address:"").environmentObject(homeMapViewEnvironment)) {
-                                    Image(systemName: "map").foregroundColor(Color.gray)
-                                }
-                                .padding(.all, 20)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                    .stroke(Color.gray, lineWidth: 2)
-                                )
-                                .background(lightGreyColor)
                             }
                             .padding(.leading, 10)
                             .padding(.trailing, 10)
