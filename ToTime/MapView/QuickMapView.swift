@@ -25,7 +25,7 @@ struct QuickMapView: View {
     
     let address: String
     let location: CLLocation
-    @Binding var isQuick: Bool
+//    @Binding var isQuick: Bool
     @Binding var isNavigationBarHidden: Bool
     
     var body: some View {
@@ -143,9 +143,10 @@ struct QuickMapView: View {
             }
             .blur(radius: self.isLoading ? CGFloat(3) : CGFloat(0))
             ActivityIndicator(style: .large, isLoading: self.$isLoading)
-        }.onDisappear {
-            self.isQuick = false
         }
+//        .onDisappear {
+//            self.isQuick = false
+//        }
     }
 
     private func defaultAlert(title: String, message: String) -> Alert{

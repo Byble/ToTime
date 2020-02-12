@@ -8,14 +8,24 @@
 
 import Foundation
 import RealmSwift
-import MapKit
 import SwiftUI
 
-class MarkData: Object{
-    @objc dynamic var id = UUID()
-    @objc dynamic let name: String = ""
-    @objc dynamic var nameColor: Color = Color.white
-    @objc dynamic var bgColor: Color = Color.white
-    @objc dynamic var location: CLLocation = CLLocation(latitude: 0.0, longitude: 0.0)
+class MarkData: Object, Identifiable{
+    @objc dynamic var id: String = UUID().uuidString
+    @objc dynamic var name: String = ""
+    @objc dynamic var nameColor: String = ""
+    @objc dynamic var bgColor: String = ""
+    @objc dynamic var longitude: Double = 0.0
+    @objc dynamic var latitude: Double = 0.0
     @objc dynamic var address: String = ""
+    
+    convenience init(name: String, nameColor: String, bgColor: String, longitude: Double, latitude: Double, address: String){
+        self.init()
+        self.name = name
+        self.nameColor = nameColor
+        self.bgColor = bgColor
+        self.longitude = longitude
+        self.latitude = latitude
+        self.address = address
+    }
 }

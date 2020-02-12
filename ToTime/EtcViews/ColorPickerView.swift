@@ -1,13 +1,14 @@
 import SwiftUI
+import UIKit
 
 struct ColorPickerView: View {
-    @Binding var chosenColor: Color
+    @Binding var chosenColor: UIColor
     
     @State private var isDragging: Bool = false
     @State private var startLocation: CGFloat = .zero
     @State private var dragOffset: CGSize = .zero
     
-    init(chosenColor: Binding<Color>) {
+    init(chosenColor: Binding<UIColor>) {
         self._chosenColor = chosenColor
     }
     
@@ -27,8 +28,9 @@ struct ColorPickerView: View {
     
     private var linearGradientHeight: CGFloat = 150
     
-    private var currentColor: Color {
-        Color(UIColor.init(hue: self.normalizeGesture() / linearGradientHeight, saturation: 1.0, brightness: 1.0, alpha: 1.0))
+    private var currentColor: UIColor {
+//        Color()
+        UIColor.init(hue: self.normalizeGesture() / linearGradientHeight, saturation: 1.0, brightness: 1.0, alpha: 1.0)
     }
     
     private func normalizeGesture() -> CGFloat {
@@ -65,7 +67,7 @@ struct ColorPickerView: View {
             )
             
             Circle()
-                .foregroundColor(self.currentColor)
+                .foregroundColor(Color(self.currentColor))
                 .frame(width: self.circleWidth, height: self.circleWidth, alignment: .center)
                 .shadow(radius: 5)
                 .overlay(
@@ -79,6 +81,6 @@ struct ColorPickerView: View {
 
 struct ColorPickerView_Previews: PreviewProvider {
     static var previews: some View {
-         ColorPickerView(chosenColor: Binding.constant(Color.white))
+        ColorPickerView(chosenColor: Binding.constant(UIColor.white))
     }
 }

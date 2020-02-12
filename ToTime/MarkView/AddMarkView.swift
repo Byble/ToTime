@@ -8,6 +8,7 @@
 
 import SwiftUI
 import MapKit
+//import RealmSwift
 
 struct AddMarkView: View {
     @Environment (\.presentationMode) var presentationMode: Binding<PresentationMode>
@@ -20,12 +21,12 @@ struct AddMarkView: View {
     @State var nameColor = Color.white
     @State var location = CLLocation(latitude: 0.0, longitude: 0.0)
     
-    @State var currentBgColor: Color = .clear
-    @State var currentNameColor: Color = .clear
+    @State var currentBgColor: UIColor = .clear
+    @State var currentNameColor: UIColor = .clear
     
     let defaultLoc = CLLocation(latitude: 0.0, longitude: 0.0)
     
-    var didAddMark: (Mark) -> ()
+    var didAddMark: (MarkData) -> ()
     
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     
@@ -39,7 +40,9 @@ struct AddMarkView: View {
                             Spacer()
                             Button(action: {
                                 if self.markName != "" && self.location != self.defaultLoc{
-                                    self.didAddMark(.init(name: self.markName, nameColor: self.currentNameColor, bgColor: self.currentBgColor, location: self.location, address: self.fullLoc))
+//                                    self.didAddMark(.init(name: self.markName, nameColor: self.currentNameColor, bgColor: self.currentBgColor, location: self.location, address: self.fullLoc))
+                                    self.didAddMark(MarkData(name: self.markName, nameColor: self.currentNameColor.toHexString(), bgColor: self.currentBgColor.toHexString(), longitude: self.location.coordinate.longitude, latitude: self.location.coordinate.latitude, address: self.fullLoc))
+                                    
                                     self.presentationMode.wrappedValue.dismiss()
                                 }else{
                                     self.isAlert = true
@@ -147,7 +150,7 @@ struct AddMarkView: View {
                             }
                         }
                         Spacer()
-                        TestMarkCell(name: markName != "" ? markName : "버튼 이름", nameColor: currentNameColor, bgColor: currentBgColor)
+                        TestMarkCell(name: markName != "" ? markName : "버튼 이름", nameColor: Color(currentNameColor), bgColor: Color(currentBgColor))
                         Spacer()
                     }
                 }
@@ -161,6 +164,22 @@ struct AddMarkView: View {
             self.endEditing()
         }
     }
+//    private func saveData(name: String, nameColor: Color, bgColor: Color, location: CLLocation, address: String){
+//        let lon: Double = location.coordinate.longitude
+//        let lat: Double = location.coordinate.latitude
+//        let nColor: String = nameColor.uiColor().hexStringFromColor()
+//        let bColor: String = bgColor.uiColor().hexStringFromColor()
+//
+//        let data = MarkData()
+//        data.name = name
+//        data.nameColor = nColor
+//        data.bgColor = bColor
+//        data.latitude = lat
+//        data.longitute = lon
+//        data.address = address
+//
+//        realmControll.saveData(obj: data)
+//    }
     private func endEditing() {
         UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
     }

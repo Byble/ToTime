@@ -9,12 +9,13 @@
 import Foundation
 import SwiftUI
 import MapKit
+import UIKit
 
-struct Mark: Identifiable {
+struct Mark: Identifiable, Equatable {
     var id = UUID()
     let name: String
-    let nameColor: Color
-    let bgColor: Color
+    let nameColor: UIColor
+    let bgColor: UIColor
     let location: CLLocation
     let address: String
 }

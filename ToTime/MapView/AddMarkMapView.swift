@@ -81,8 +81,6 @@ struct AddMarkMapView: View {
                         Spacer()
                         Button(action: {
                             if !self.errorField.isEmpty{
-                                print(self.getAddress)
-                                print(self.getlocation)
                                 self.setAddress = self.getAddress
                                 self.setLocation = self.getlocation
                                 self.presentationMode.wrappedValue.dismiss()
