@@ -11,15 +11,19 @@ import RealmSwift
 
 class MarkRealm {
     
-    var marks: [MarkData] = []
-    init(){
+    func getMarks() -> Results<MarkData>{
         let realm = try! Realm()
-        for data in realm.objects(MarkData.self){
-            marks.append(data)
+        return realm.objects(MarkData.self)
+    }
+    func getMark(id: String) -> MarkData{
+        let realm = try! Realm()
+        if let data = realm.object(ofType: MarkData.self, forPrimaryKey: id){
+            return data
         }
+        return MarkData(name: "", nameColor: "", bgColor: "", longitude: 0.0, latitude: 0.0, address: "")
     }
     
-    func saveMark(obj: Object){
+    func saveMark(obj: MarkData){
         let realm = try! Realm()
         do {
             try realm.write{
@@ -30,14 +34,17 @@ class MarkRealm {
         }
     }
 
-    func deleteMark(obj: Object){
+    func deleteMark(id: String){
         let realm = try! Realm()
-        do {
-            try realm.write{
-                realm.delete(obj)
+
+        if let data = realm.object(ofType: MarkData.self, forPrimaryKey: id){
+            do {
+                try realm.write{
+                    realm.delete(data)
+                }
+            } catch {
+                print("Realm Delete Error")
             }
-        } catch {
-            print("Realm Delete Error")
         }
     }
 }

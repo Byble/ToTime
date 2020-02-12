@@ -31,8 +31,7 @@ struct ContentView {
     @State var delAnim: Bool = false
     @State var markAnim: Bool = false
     @State var isMarkDelete: Bool = false
-    @State var selectedMark: [MarkData] = []
-    
+    @State var selectedID = ""
 }
 
 extension ContentView: View{
@@ -103,8 +102,6 @@ extension ContentView: View{
                                 .sheet(isPresented: self.$showAddMark) {
                                     AddMarkView(didAddMark: {
                                         mark in
-                                        self.markRealm.marks.append(mark)
-                                        
                                         self.saveData(name: mark.name, nameColor: mark.nameColor, bgColor: mark.bgColor, latitude: mark.latitude, longitude: mark.longitude, address: mark.address)
                                         
                                     })
@@ -139,12 +136,12 @@ extension ContentView: View{
                                 .alert(isPresented: self.$isMarkDelete){
                                     return Alert(title: Text("삭제 알림"), message: Text("선택하신 즐겨찾기를 삭제하시겠습니까?"), primaryButton: .cancel({
                                         self.isMarkDelete = false
+                                        self.selectedID = ""
                                     }), secondaryButton: .default(Text("확인"), action: {
-                                        if (self.selectedMark.first != nil){
-                                            self.markRealm.deleteMark(obj: self.markRealm.marks.filter{$0 == self.selectedMark.first}.first!)
-                                            self.markRealm.marks = self.markRealm.marks.filter {$0 != self.selectedMark.first}
-                                            self.selectedMark.removeAll()
+                                        if (self.selectedID != ""){
+                                            self.markRealm.deleteMark(id: self.selectedID)
                                         }
+                                        self.selectedID = ""
                                         self.isMarkDelete = false
                                     }))
                                 }
@@ -153,7 +150,7 @@ extension ContentView: View{
                         .padding(.leading, 20)
 
                         VStack(){
-                            QGrid(markRealm.marks, columns: 2){
+                            QGrid(markRealm.getMarks(), columns: 2){
                                 mark in
                                 MarkCell(name: mark.name,
                                          nameColor: Color(UIColor(hex: mark.nameColor) ?? UIColor.blue),
@@ -161,7 +158,7 @@ extension ContentView: View{
                                     location: CLLocation(latitude: mark.latitude, longitude: mark.longitude),
                                     address: mark.address,
                                     didClick: {_ in
-                                        self.selectedMark.append(mark)
+                                        self.selectedID = mark.uuid
                                         if self.markMode != MarkMode.Delete{
                                             self.markMode = .Quick
                                         }else{
@@ -174,11 +171,10 @@ extension ContentView: View{
 //                                .animation(Animation.linear(duration: 0.3).repeat(while: self.delAnim))
                             }
                         }
-                        if !selectedMark.isEmpty{
+                        if selectedID != ""{
                             if self.markMode == .Quick{
-                                NavigationLink(destination: QuickMapView(address: selectedMark.first!.address, location: CLLocation(latitude: selectedMark.first!.latitude, longitude: selectedMark.first!.longitude),  isNavigationBarHidden: self.$isNavigationBarHidden).environmentObject(quickMapViewEnvironment)
+                                NavigationLink(destination: QuickMapView(address: self.markRealm.getMark(id: self.selectedID).address, location: CLLocation(latitude: self.markRealm.getMark(id: self.selectedID).latitude, longitude: self.markRealm.getMark(id: self.selectedID).longitude),  isNavigationBarHidden: self.$isNavigationBarHidden).environmentObject(quickMapViewEnvironment)
                                     .onDisappear(perform: {
-                                        self.selectedMark.removeAll()
                                         self.markMode = .None
                                     }),
                                                isActive: self.markMode == MarkMode.Quick ? Binding.constant(true) : Binding.constant(false)){

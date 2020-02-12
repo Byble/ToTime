@@ -11,7 +11,7 @@ import RealmSwift
 import SwiftUI
 
 class MarkData: Object, Identifiable{
-    @objc dynamic var id: String = UUID().uuidString
+    @objc dynamic var uuid: String = UUID().uuidString
     @objc dynamic var name: String = ""
     @objc dynamic var nameColor: String = ""
     @objc dynamic var bgColor: String = ""
@@ -27,5 +27,9 @@ class MarkData: Object, Identifiable{
         self.longitude = longitude
         self.latitude = latitude
         self.address = address
+    }
+    
+    override static func primaryKey() -> String? {
+      return "uuid"
     }
 }
