@@ -6,5 +6,5 @@
 //  Copyright © 2020 김민국. All rights reserved.
 //
 
-let googleKey = ""
+let googleKey = "AIzaSyD4KOxynOARv0GZ_xDOFwWtBMXri0nBIYM"
 

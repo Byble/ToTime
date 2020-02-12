@@ -61,7 +61,9 @@ extension ContentView: View{
                                 Spacer(minLength: 10)
                                 if !self.locName.isEmpty{
 
-                                    NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: true, address: self.locName).environmentObject(homeMapViewEnvironment)) {
+                                    NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: true, address: self.locName).environmentObject(homeMapViewEnvironment).onAppear(perform: {
+                                        self.markMode = .None
+                                    })) {
                                         Image(systemName: "magnifyingglass").foregroundColor(Color.gray)
                                         .padding(.all, 20)
                                         .overlay(
@@ -71,7 +73,9 @@ extension ContentView: View{
                                         .background(lightGreyColor)
                                     }
                                 }
-                                NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: false, address:"").environmentObject(homeMapViewEnvironment)) {
+                                NavigationLink(destination: HomeMapView(isNavigationBarHidden: $isNavigationBarHidden, isLoc: false, address:"").environmentObject(homeMapViewEnvironment).onAppear(perform: {
+                                    self.markMode = .None
+                                })) {
                                     Image(systemName: "map").foregroundColor(Color.gray)
                                     .padding(.all, 20)
                                     .overlay(
@@ -94,6 +98,7 @@ extension ContentView: View{
                                 
                                 Button(action: {
                                     self.showAddMark.toggle()
+                                    self.markMode = .None
                                 }){
                                     Image(systemName: "plus.circle")
                                         .font(.system(size: 25))
