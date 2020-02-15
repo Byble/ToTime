@@ -5,4 +5,5 @@
 ### This application will be available for free on the AppStore.
 
 #### To do
-1. Save Mark datas by Realm
+1. Save Mark datas by Realm  - Done
+2. UI/UX Design
