@@ -10,6 +10,7 @@ import SwiftUI
 import MapKit
 
 struct AddMarkMapView: View {
+    @EnvironmentObject var addMarkMapViewEnvironment: AddMarkMapViewEnvironment
     
     @State private var isChange: Bool = false
     @State var isFocus: Bool = false
@@ -22,6 +23,8 @@ struct AddMarkMapView: View {
     @Binding var setLocation: CLLocation
     @Binding var setAddress: String
     
+    @State private var showAlert: Bool = false
+    
     var isLoc: Bool = false
     var address: String = ""
     
@@ -30,7 +33,6 @@ struct AddMarkMapView: View {
     var body: some View {
         ZStack{
             NavigationItemContainer{
-                
                 VStack{
                     if !self.errorField.isEmpty{
                         Text(self.errorField)
@@ -39,11 +41,13 @@ struct AddMarkMapView: View {
                     
                     ZStack{
                         ZStack(alignment: .topTrailing){
-                            AddMarkMap(location: self.$getlocation, isLoc: self.isLoc, isChange: self.$isChange, isFocus: self.$isFocus, errorField: self.$errorField, isLoading: self.$isLoading, setAddress: self.$getAddress, address: self.address)
+                            AddMarkMap(location: self.$getlocation, isLoc: self.isLoc, isChange: self.$isChange, isFocus: self.$isFocus, errorField: self.$errorField, isLoading: self.$isLoading, setAddress: self.$getAddress, showAlert: self.$showAlert, address: self.address)
                                 .onAppear(perform: {
                                     self.isLoading = true
                                 })
-                                                        
+                                .alert(isPresented: self.$showAlert){
+                                    return self.timeOutAlert(title: "주소 오류", message: "검색된 주소가 없습니다.")
+                                }
                             Button(action: {
                                 self.isFocus.toggle()
                             }){
@@ -104,11 +108,20 @@ struct AddMarkMapView: View {
                 .onAppear {
                     self.isNavigationBarHidden = false
                 }
+                .onDisappear {
+                    self.addMarkMapViewEnvironment.isOverTime = false
+                }
             }
             .blur(radius: self.isLoading ? CGFloat(3) : CGFloat(0))
             ActivityIndicator(style: .large, isLoading: self.$isLoading)
             
         }
+    }
+    
+    private func timeOutAlert(title: String, message: String) -> Alert{
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
+            self.presentationMode.wrappedValue.dismiss()
+        }))
     }
 }
 

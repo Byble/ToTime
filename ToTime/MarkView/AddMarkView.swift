@@ -48,7 +48,7 @@ struct AddMarkView: View {
                                     self.isAlert = true
                                 }
                             }){
-                                Text("Done")
+                                Text("완료")
                                     .font(.headline)
                                 .padding(15)
                             }

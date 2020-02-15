@@ -20,7 +20,7 @@ struct NavigationBarBack: View {
             Image("ic_back") // set image here
                 .aspectRatio(contentMode: .fit)
                 .foregroundColor(.white)
-                Text("Go back")
+                Text("뒤로가기")
             }
         }
     }

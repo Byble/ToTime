@@ -16,6 +16,7 @@ enum ALERT{
     case Reach
     case LocationSet
     case AlertSet
+    case TimeOut
 }
 
 struct HomeMapView: View {
@@ -29,11 +30,14 @@ struct HomeMapView: View {
     @State private var showAlert: Bool = false
     @State private var location: CLLocation = CLLocation(latitude: 0.0, longitude: 0.0)
     @State private var activeAlert: ALERT = .None
+    @State private var showProgress: Bool = false
     
     @State private var showError: Bool = false
     
     @State var isLoading: Bool = false
     @State var distance: Int = 0
+    @State var percentage: Float = 0.0
+//    @State var isOverTime = false
     
     @Binding var isNavigationBarHidden: Bool
     var isLoc: Bool = false
@@ -66,12 +70,12 @@ struct HomeMapView: View {
                     
                     ZStack{
                         ZStack(alignment: .topTrailing){
-                            HomeMap(location: self.$location, isLoc: self.isLoc, isChange: self.$isChange, isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, isLoading: self.$isLoading, distance: self.$distance, address: self.address, setStart: {
+                            HomeMap(location: self.$location, isLoc: self.isLoc, isChange: self.$isChange, isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, isLoading: self.$isLoading, distance: self.$distance, percentage: self.$percentage, address: self.address, setStart: {
                                 self.homeMapViewEnvironment.isStart = $0
                             })
-                                .onAppear(perform: {
-                                    self.isLoading = true
-                                })
+                            .onAppear(perform: {
+                                self.isLoading = true
+                            })
                             .alert(isPresented: self.$showAlert){
                                 switch self.activeAlert{
                                     case .None:
@@ -79,15 +83,18 @@ struct HomeMapView: View {
                                     case .ScheduleError:
                                         return self.defaultAlert(title: "알림 오류", message:"오류가 발생했습니다.")
                                     case .Schedule:
-                                        return self.defaultAlert(title: "알림 설정 완료", message: "설정한 거리까지 도착하면 알림을 받습니다")
+                                        return self.startAlert(title: "알림 설정 완료", message: "설정한 거리까지 도착하면 알림을 받습니다")
                                     case .Reach:
                                         return self.defaultAlert(title: "도착", message: "지정한 목적지 거리에 도착했습니다.")
                                     case .LocationSet:
                                         return self.actionAlert(title: "권한 설정 필요", message: "위치 권한이 승인되지 않았습니다. 계속하려면 설정에서 위치 권환을 활성화하십시오.")
                                     case .AlertSet:
                                         return self.actionAlert(title: "권한 설정 필요", message: "알림 권한이 부여되지 않았습니다. 계속하려면 설정에서 알림 권환을 활성화하십시오.")
+                                    case .TimeOut:
+                                        return self.timeOutAlert(title: "주소 오류", message: "검색된 주소가 없습니다.")
                                 }
                             }
+                            
                                                         
                             Button(action: {
                                 self.isFocus.toggle()
@@ -113,6 +120,15 @@ struct HomeMapView: View {
                             }.padding(.top, 30)
                                 .padding(.trailing, 10)
                         }
+                        
+                        .sheet(isPresented: self.$showProgress){
+                            ProgressView(percentage: self.$percentage)
+                                .onDisappear {
+                                    self.showProgress = false
+                            }
+                        }
+                        
+                        
                         ZStack(alignment: .center) {
                             if self.isChange{
                                 Image(systemName: "circle")
@@ -160,6 +176,15 @@ struct HomeMapView: View {
                             Text("변경하기")
                             .padding()
                         }
+                        if (self.homeMapViewEnvironment.isStart ?? false && !self.showProgress){
+                            Spacer()
+                            Button(action: {
+                                self.showProgress = true
+                            }){
+                                Text("진행 상태")
+                                .padding()
+                            }
+                        }
                         
                         Spacer()
                     }
@@ -170,6 +195,7 @@ struct HomeMapView: View {
                 }
                 .onDisappear{
                     self.homeMapViewEnvironment.isStart = false
+                    self.homeMapViewEnvironment.isOverTime = false
                 }
             }
             .blur(radius: self.isLoading ? CGFloat(3) : CGFloat(0))
@@ -179,21 +205,36 @@ struct HomeMapView: View {
     }
 
     private func defaultAlert(title: String, message: String) -> Alert{
-        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK"), action: {
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
             self.toggleShowAlert()
         }))
     }
 
+    private func startAlert(title: String, message: String) -> Alert{
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
+            self.toggleShowAlert()
+            self.showProgress = true
+        }))
+    }
+    private func timeOutAlert(title: String, message: String) -> Alert{
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
+            self.toggleShowAlert()
+            self.presentationMode.wrappedValue.dismiss()
+        }))
+    }
     private func actionAlert(title: String, message: String) -> Alert{
-        return Alert(title: Text(title), message: Text(message), primaryButton: .default(Text("OK")), secondaryButton: .default(Text("설정"), action: {
+        self.toggleShowAlert()
+        return Alert(title: Text(title), message: Text(message), primaryButton: .default(Text("취소")), secondaryButton: .default(Text("설정"), action: {
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             self.toggleShowAlert()
         }))
     }
 
     private func toggleShowAlert(){
-        self.showAlert = false
-        self.activeAlert = .None
+        DispatchQueue.main.async {
+//            self.showAlert = false
+            self.activeAlert = .None
+        }
     }
 }
 //

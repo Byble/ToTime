@@ -14,6 +14,8 @@ import SwiftyJSON
 
 
 struct AddMarkMap{
+    @EnvironmentObject var addMarkMapViewEnvironment: AddMarkMapViewEnvironment
+    
     @Binding var location: CLLocation
     var isLoc: Bool
     
@@ -24,6 +26,8 @@ struct AddMarkMap{
         
     @Binding var isLoading: Bool
     @Binding var setAddress: String
+    
+    @Binding var showAlert: Bool
     
     let address: String
     
@@ -71,6 +75,13 @@ extension AddMarkMap: UIViewRepresentable{
     }
     
     func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<AddMarkMap>) {
+        addMarkMapViewEnvironment.didIsOverTimeChange = {
+            if self.addMarkMapViewEnvironment.isOverTime!{
+                self.addMarkMapViewEnvironment.isOverTime = false
+                self.showAlert = true
+            }
+        }
+        
         let status = CLLocationManager.authorizationStatus()
         if isFocus{
             if status == .authorizedAlways || status == .authorizedWhenInUse{
@@ -87,23 +98,34 @@ extension AddMarkMap: UIViewRepresentable{
         let key : String = googleKey
         let postParameters:[String: Any] = [ "address": address, "key":key]
         let url : String = "https://maps.googleapis.com/maps/api/geocode/json"
-
-        Alamofire.request(url, method: .get, parameters: postParameters, encoding: URLEncoding.default, headers: nil).responseJSON {  response in
-
-            if let receivedResults = response.result.value
-            {
-                let json = JSON(receivedResults)
-                guard "OK" == json["status"] else{
-                    return
+        let manager = Alamofire.SessionManager.default
+        manager.session.configuration.timeoutIntervalForRequest = 10
+        manager.request(url, method: .get, parameters: postParameters, encoding: URLEncoding.default, headers: nil).responseJSON {  response in
+            switch response.result{
+            case .success:
+                if let receivedResults = response.result.value
+                {
+                    let json = JSON(receivedResults)
+                    guard "OK" == json["status"] else{
+                        self.addMarkMapViewEnvironment.isOverTime = true
+                        return
+                    }
+                    
+                    let lat = json["results"][0]["geometry"]["location"]["lat"].doubleValue
+                    let lon = json["results"][0]["geometry"]["location"]["lng"].doubleValue
+                    let loc = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                    self.setAddress = json["results"][0]["formatted_address"].stringValue
+                    self.errorField = json["results"][0]["formatted_address"].stringValue
+                    completion(loc)
                 }
-                
-                let lat = json["results"][0]["geometry"]["location"]["lat"].doubleValue
-                let lon = json["results"][0]["geometry"]["location"]["lng"].doubleValue
-                let loc = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                self.setAddress = json["results"][0]["formatted_address"].stringValue
-                self.errorField = json["results"][0]["formatted_address"].stringValue
-                completion(loc)
+            case .failure(let error):
+                if error._code == NSURLErrorTimedOut {
+                    if (self.addMarkMapViewEnvironment.isOverTime ?? false) == false{
+                        self.addMarkMapViewEnvironment.isOverTime = true
+                    }
+                }
             }
+            
         }
     }
     
@@ -189,6 +211,6 @@ extension AddMarkMap: UIViewRepresentable{
 
 struct AddMarkMap_Previews: PreviewProvider {
     static var previews: some View {
-        AddMarkMap(location: Binding.constant(CLLocation(latitude: 0.0, longitude: 0.0)), isLoc: false, isChange: Binding.constant(false), isFocus: Binding.constant(false), errorField: Binding.constant(""), isLoading: Binding.constant(false), setAddress: Binding.constant(""), address: "")
+        AddMarkMap(location: Binding.constant(CLLocation(latitude: 0.0, longitude: 0.0)), isLoc: false, isChange: Binding.constant(false), isFocus: Binding.constant(false), errorField: Binding.constant(""), isLoading: Binding.constant(false), setAddress: Binding.constant(""), showAlert: Binding.constant(false), address: "")
     }
 }

@@ -26,6 +26,8 @@
 		8C52974623F05ACE006A5B0C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C52974523F05ACE006A5B0C /* ColorExtension.swift */; };
 		8C8217DE23F2F04A00AC1742 /* AnimationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217DD23F2F04A00AC1742 /* AnimationExtension.swift */; };
 		8C8217E223F3ABA300AC1742 /* MarkRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E123F3ABA300AC1742 /* MarkRealm.swift */; };
+		8C8217E623F700D400AC1742 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E523F700D400AC1742 /* ProgressView.swift */; };
+		8C8217E823F7C23100AC1742 /* AddMarkMapViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E723F7C23100AC1742 /* AddMarkMapViewEnvironment.swift */; };
 		8C984D7F23D4A53800F1540C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D7E23D4A53800F1540C /* AppDelegate.swift */; };
 		8C984D8123D4A53800F1540C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D8023D4A53800F1540C /* SceneDelegate.swift */; };
 		8C984D8323D4A53800F1540C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D8223D4A53800F1540C /* ContentView.swift */; };
@@ -92,6 +94,8 @@
 		8C52974523F05ACE006A5B0C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		8C8217DD23F2F04A00AC1742 /* AnimationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationExtension.swift; sourceTree = "<group>"; };
 		8C8217E123F3ABA300AC1742 /* MarkRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkRealm.swift; sourceTree = "<group>"; };
+		8C8217E523F700D400AC1742 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
+		8C8217E723F7C23100AC1742 /* AddMarkMapViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkMapViewEnvironment.swift; sourceTree = "<group>"; };
 		8C984D7B23D4A53800F1540C /* ToTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C984D7E23D4A53800F1540C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C984D8023D4A53800F1540C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -290,6 +294,7 @@
 				8C2C657723DC8F220001FCBE /* HomeMapViewEnvironment.swift */,
 				8C2C655D23D8949D0001FCBE /* HomeMapView.swift */,
 				8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */,
+				8C8217E723F7C23100AC1742 /* AddMarkMapViewEnvironment.swift */,
 				8CF1B9AF23E6C66E00B5F236 /* AddMarkMapView.swift */,
 				8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */,
 				8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */,
@@ -319,6 +324,7 @@
 				8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */,
 				8C2C656523D8B6910001FCBE /* NavigationBarBack.swift */,
 				8C2A383123D743AD00BBD1A1 /* ColorPickerView.swift */,
+				8C8217E523F700D400AC1742 /* ProgressView.swift */,
 			);
 			path = EtcViews;
 			sourceTree = "<group>";
@@ -579,6 +585,7 @@
 				8C2A383023D6D87000BBD1A1 /* AddMarkView.swift in Sources */,
 				8C984D7F23D4A53800F1540C /* AppDelegate.swift in Sources */,
 				8C2A383223D743AD00BBD1A1 /* ColorPickerView.swift in Sources */,
+				8C8217E623F700D400AC1742 /* ProgressView.swift in Sources */,
 				8C2C656C23DBFDF70001FCBE /* LocationNotificationSchedulerDelegate.swift in Sources */,
 				8C8217DE23F2F04A00AC1742 /* AnimationExtension.swift in Sources */,
 				8C2C655E23D8949D0001FCBE /* HomeMapView.swift in Sources */,
@@ -599,6 +606,7 @@
 				8CA50DDC23D5FC6500A7D73B /* Mark.swift in Sources */,
 				8C2C656423D8A5370001FCBE /* Background.swift in Sources */,
 				8C2C656A23DBFCEB0001FCBE /* LocationNotificationScheduler.swift in Sources */,
+				8C8217E823F7C23100AC1742 /* AddMarkMapViewEnvironment.swift in Sources */,
 				8C2C656623D8B6910001FCBE /* NavigationBarBack.swift in Sources */,
 				8CC0983D23DE941800382674 /* ActivityIndicator.swift in Sources */,
 				8C2C657823DC8F220001FCBE /* HomeMapViewEnvironment.swift in Sources */,
@@ -767,7 +775,8 @@
 			baseConfigurationReference = 1BE6B53B9E8DB7B321352FA6 /* Pods-ToTime.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"ToTime/Preview Content\"";
 				DEVELOPMENT_TEAM = 3N72J4U62S;
 				ENABLE_PREVIEWS = YES;
@@ -776,10 +785,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MGHouse.ToTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = ToTimeDevelopment;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -788,7 +799,8 @@
 			baseConfigurationReference = 5279BDD8019F65FCFF317641 /* Pods-ToTime.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"ToTime/Preview Content\"";
 				DEVELOPMENT_TEAM = 3N72J4U62S;
 				ENABLE_PREVIEWS = YES;
@@ -797,10 +809,12 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MGHouse.ToTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = ToTimeDevelopment;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

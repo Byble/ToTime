@@ -18,15 +18,18 @@ struct QuickMapView: View {
     
     @State private var showAlert: Bool = false
     @State private var showError: Bool = false
+    @State private var showProgress: Bool = false
     @State private var activeAlert: ALERT = .None
     @State var distance: Int = 0
     
     @State var isLoading: Bool = false
+    @State var percentage: Float = 0.0
     
     let address: String
     let location: CLLocation
-//    @Binding var isQuick: Bool
+
     @Binding var isNavigationBarHidden: Bool
+    @Environment(\.presentationMode) var presentationMode: Binding<PresentationMode>
     
     var body: some View {
         ZStack{
@@ -53,7 +56,7 @@ struct QuickMapView: View {
                     
                     ZStack{
                         ZStack(alignment: .topTrailing){
-                            QuickMap(isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, distance: self.$distance, isLoading: self.$isLoading, address: self.address, location: self.location, setStart: {
+                            QuickMap(isFocus: self.$isFocus, setDistance: self.$setDistance, errorField: self.$errorField, showAlert: self.$showAlert, activeAlert: self.$activeAlert, distance: self.$distance, isLoading: self.$isLoading, percentage: self.$percentage, address: self.address, location: self.location, setStart: {
                                 self.quickMapViewEnvironment.isStart = $0
                             })
                             .onAppear(perform: {
@@ -66,13 +69,15 @@ struct QuickMapView: View {
                                     case .ScheduleError:
                                         return self.defaultAlert(title: "알림 오류", message:"오류가 발생했습니다.")
                                     case .Schedule:
-                                        return self.defaultAlert(title: "알림 설정 완료", message: "설정한 거리까지 도착하면 알림을 받습니다")
+                                        return self.startAlert(title: "알림 설정 완료", message: "설정한 거리까지 도착하면 알림을 받습니다")
                                     case .Reach:
                                         return self.defaultAlert(title: "도착", message: "지정한 목적지 거리에 도착했습니다.")
                                     case .LocationSet:
                                         return self.actionAlert(title: "권한 설정 필요", message: "위치 권한이 승인되지 않았습니다. 계속하려면 설정에서 위치 권환을 활성화하십시오.")
                                     case .AlertSet:
                                         return self.actionAlert(title: "권한 설정 필요", message: "알림 권한이 부여되지 않았습니다. 계속하려면 설정에서 알림 권환을 활성화하십시오.")
+                                    case .TimeOut:
+                                        return self.timeOutAlert(title: "주소 오류", message: "검색된 주소가 없습니다.")
                                 }
                             }
                                                         
@@ -100,11 +105,18 @@ struct QuickMapView: View {
                             }.padding(.top, 30)
                                 .padding(.trailing, 10)
                         }
+                        .sheet(isPresented: self.$showProgress){
+                            ProgressView(percentage: self.$percentage)
+                                .onDisappear {
+                                    self.showProgress = false
+                            }
+                        }
                     }
                     
                     
                     Spacer()
                     HStack{
+                        Spacer()
                         Button(action: {
                             if self.setDistance != "" && (self.distance > Int(self.setDistance) ?? 0){
                                 if (self.quickMapViewEnvironment.isStart ?? false) == false{
@@ -128,6 +140,16 @@ struct QuickMapView: View {
                                 .padding()
                             }
                         }
+                        if (self.quickMapViewEnvironment.isStart ?? false && !self.showProgress){
+                            Spacer()
+                            Button(action: {
+                                self.showProgress = true
+                            }){
+                                Text("진행 상태")
+                                .padding()
+                            }
+                        }
+                        Spacer()
                     }
                     .alert(isPresented: self.$showError) {
                         return self.defaultAlert(title: "설정된 거리 오류", message: "목적지까지 거리보다 짧은 거리를 적어주세요")
@@ -150,13 +172,24 @@ struct QuickMapView: View {
     }
 
     private func defaultAlert(title: String, message: String) -> Alert{
-        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("OK"), action: {
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
             self.toggleShowAlert()
         }))
     }
-
+    private func timeOutAlert(title: String, message: String) -> Alert{
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
+            self.toggleShowAlert()
+            self.presentationMode.wrappedValue.dismiss()
+        }))
+    }
+    private func startAlert(title: String, message: String) -> Alert{
+        return Alert(title: Text(title), message: Text(message), dismissButton: .default(Text("확인"), action: {
+            self.toggleShowAlert()
+            self.showProgress = true
+        }))
+    }
     private func actionAlert(title: String, message: String) -> Alert{
-        return Alert(title: Text(title), message: Text(message), primaryButton: .default(Text("OK")), secondaryButton: .default(Text("설정"), action: {
+        return Alert(title: Text(title), message: Text(message), primaryButton: .default(Text("취소")), secondaryButton: .default(Text("설정"), action: {
             UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!)
             self.toggleShowAlert()
         }))

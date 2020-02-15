@@ -32,6 +32,8 @@ struct HomeMap{
     @Binding var activeAlert: ALERT
     @Binding var isLoading: Bool
     @Binding var distance: Int
+    @Binding var percentage: Float
+    @State var fullDis: Float = 0
     
     var address: String
     var setStart: (Bool) -> Void
@@ -41,6 +43,7 @@ struct HomeMap{
     @State var mapView: MKMapView = MKMapView()
     
     @State var isLocationSet: Bool = false
+    @State var isFullDis = false
 }
 
 extension HomeMap: UIViewRepresentable{
@@ -79,9 +82,15 @@ extension HomeMap: UIViewRepresentable{
             }
         return mapView
     }
-    
-    func updateUIView(_ uiView: MKMapView, context: UIViewRepresentableContext<HomeMap>) {
-        
+    //UIViewRepresentableContext<HomeMap>
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        homeMapViewEnvironment.didIsOverTimeChange = {
+            if self.homeMapViewEnvironment.isOverTime!{
+                self.homeMapViewEnvironment.isOverTime = false
+                self.showAlert = true
+                self.activeAlert = .TimeOut
+            }
+        }
         homeMapViewEnvironment.didIsStartChange = {
             if self.homeMapViewEnvironment.isStart!{
                 if self.isLocationSet{
@@ -92,7 +101,8 @@ extension HomeMap: UIViewRepresentable{
                 }
             }else{
                 self.stopLocationNotification()
-                self.errorField = "" 
+                self.errorField = ""
+                self.isFullDis = false
             }
         }
         let status = CLLocationManager.authorizationStatus()
@@ -111,24 +121,37 @@ extension HomeMap: UIViewRepresentable{
         let key : String = googleKey
         let postParameters:[String: Any] = [ "address": address, "key":key]
         let url : String = "https://maps.googleapis.com/maps/api/geocode/json"
-
-        Alamofire.request(url, method: .get, parameters: postParameters, encoding: URLEncoding.default, headers: nil).responseJSON {  response in
-
-            if let receivedResults = response.result.value
-            {
-                let json = JSON(receivedResults)
-                guard "OK" == json["status"] else{
-                    return
+        let manager = Alamofire.SessionManager.default
+        manager.session.configuration.timeoutIntervalForRequest = 10
+        
+        manager.request(url, method: .get, parameters: postParameters, encoding: URLEncoding.default, headers: nil).responseJSON {  response in
+            switch response.result{
+            case .success:
+                if let receivedResults = response.result.value
+                {
+                    let json = JSON(receivedResults)
+                    guard "OK" == json["status"] else{
+                        self.homeMapViewEnvironment.isOverTime = true
+                        return
+                    }
+                    let lat = json["results"][0]["geometry"]["location"]["lat"].doubleValue
+                    let lon = json["results"][0]["geometry"]["location"]["lng"].doubleValue
+                    let loc = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+                    if let loc = self.locationManager.location{
+                        self.distance = Int(loc.distance(from: CLLocation(latitude: lat, longitude: lon)))
+                    }
+                    self.errorField = json["results"][0]["formatted_address"].stringValue
+                    completion(loc)
                 }
-                let lat = json["results"][0]["geometry"]["location"]["lat"].doubleValue
-                let lon = json["results"][0]["geometry"]["location"]["lng"].doubleValue
-                let loc = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                if let loc = self.locationManager.location{
-                    self.distance = Int(loc.distance(from: CLLocation(latitude: lat, longitude: lon)))
+            case .failure(let error):
+                if error._code == NSURLErrorTimedOut {
+                    if (self.homeMapViewEnvironment.isOverTime ?? false) == false{
+                        self.homeMapViewEnvironment.isOverTime = true
+                    }
                 }
-                self.errorField = json["results"][0]["formatted_address"].stringValue
-                completion(loc)
             }
+            
+            
         }
     }
     func scheduleLocationNotification(){
@@ -158,6 +181,7 @@ extension HomeMap: UIViewRepresentable{
         var locality:String = ""
         var fare:String = ""
         var isLoading: Binding<Bool>
+        
         
         init(_ parent: HomeMap, loading: Binding<Bool>) {
             self.parent = parent
@@ -209,25 +233,41 @@ extension HomeMap: UIViewRepresentable{
         
         func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
             if !parent.isLoc{
-                if let loc = locations.first{
-                    let status = CLLocationManager.authorizationStatus()
-                    if status == .authorizedAlways || status == .authorizedWhenInUse{
-                        let tmpLocation: CLLocationCoordinate2D = loc.coordinate
-                        let span = MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)
-                        let region = MKCoordinateRegion(center: tmpLocation, span: span)
-                        parent.mapView.setRegion(region, animated: true)
-                        if self.isLoading.wrappedValue{
-                            self.isLoading.wrappedValue = false
+                if self.isLoading.wrappedValue{
+                    if let loc = locations.first{
+                        let status = CLLocationManager.authorizationStatus()
+                        if status == .authorizedAlways || status == .authorizedWhenInUse{
+                            let tmpLocation: CLLocationCoordinate2D = loc.coordinate
+                            let span = MKCoordinateSpan(latitudeDelta: 0.009, longitudeDelta: 0.009)
+                            let region = MKCoordinateRegion(center: tmpLocation, span: span)
+                            parent.mapView.setRegion(region, animated: true)
+                                                
+                            if self.isLoading.wrappedValue{
+                                self.isLoading.wrappedValue = false
+                            }
                         }
                     }
                 }
-                
             }
+
             if (parent.homeMapViewEnvironment.isStart ?? false) == true{
+                if !parent.isFullDis{
+                    if let dis = manager.location?.distance(from: parent.location){
+                        self.parent.fullDis = Float(dis)
+                        parent.isFullDis = true
+                    }
+                }
                 if let distance = manager.location?.distance(from: parent.location){
                     let sDis = Int(parent.setDistance) ?? 0
                     self.parent.errorField = ""
                     self.parent.distance = Int(distance)
+                    let setDis = self.parent.fullDis-(Float(self.parent.setDistance) ?? 0)
+                    let percent = (self.parent.fullDis - Float(distance)) / setDis
+                    if percent <= 0{
+                        self.parent.percentage = 0
+                    }else{
+                        self.parent.percentage = percent * 100
+                    }
                     
                     if Int(distance) < sDis{
                         parent.setStart(false)

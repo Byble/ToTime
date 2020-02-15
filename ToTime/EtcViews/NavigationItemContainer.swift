@@ -18,7 +18,7 @@ struct NavigationItemContainer<Content>: View where Content: View {
         HStack {
             Image(systemName: "chevron.left")
                 .aspectRatio(contentMode: .fit)
-            Text("back")
+            Text("뒤로가기")
         }
         }
     }

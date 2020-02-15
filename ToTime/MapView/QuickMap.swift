@@ -23,6 +23,9 @@ struct QuickMap{
     @Binding var activeAlert: ALERT
     @Binding var distance: Int
     @Binding var isLoading: Bool
+    @Binding var percentage: Float
+    @State var fullDis: Float = 0
+    @State var isFullDis = false
     
     let address: String
     let location: CLLocation
@@ -121,17 +124,30 @@ extension QuickMap: UIViewRepresentable{
 
             if let _ = locations.first{
                 let distance = manager.location!.distance(from: parent.location)
-                parent.distance = Int(distance)
+                parent.distance = Int(distance)                
                 if self.isLoading.wrappedValue{
                     self.isLoading.wrappedValue = false
                 }
             }
             
             if (parent.QuickMapViewEnvironment.isStart ?? false) == true{
+                if !parent.isFullDis{
+                    if let dis = manager.location?.distance(from: parent.location){
+                        self.parent.fullDis = Float(dis)
+                        parent.isFullDis = true
+                    }
+                }
                 if let distance = manager.location?.distance(from: parent.location){
-                    
                     let sDis = Int(parent.setDistance) ?? 0
 
+                    let setDis = self.parent.fullDis-(Float(self.parent.setDistance) ?? 0)
+                    let percent = (self.parent.fullDis - Float(distance)) / setDis
+                    if percent <= 0{
+                        self.parent.percentage = 0
+                    }else{
+                        self.parent.percentage = percent * 100
+                    }
+                    
                     if Int(distance) < sDis{
                         parent.setStart(false)
                         if UIApplication.shared.applicationState == .active{

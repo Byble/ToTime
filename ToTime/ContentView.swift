@@ -26,7 +26,8 @@ struct ContentView {
     let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
     let homeMapViewEnvironment = HomeMapViewEnvironment()
     let quickMapViewEnvironment = QuickMapViewEnvironment()
-
+    let addMarkMapViewEnvironment = AddMarkMapViewEnvironment()
+    
     @State var markMode: MarkMode = .None
     @State var delAnim: Bool = false
     @State var markAnim: Bool = false
@@ -109,7 +110,7 @@ extension ContentView: View{
                                         mark in
                                         self.saveData(name: mark.name, nameColor: mark.nameColor, bgColor: mark.bgColor, latitude: mark.latitude, longitude: mark.longitude, address: mark.address)
                                         
-                                    })
+                                    }).environmentObject(self.addMarkMapViewEnvironment)
                                 }
                                 .padding(.trailing, 10)
                                 
@@ -139,7 +140,7 @@ extension ContentView: View{
                                     }
                                 }
                                 .alert(isPresented: self.$isMarkDelete){
-                                    return Alert(title: Text("삭제 알림"), message: Text("선택하신 즐겨찾기를 삭제하시겠습니까?"), primaryButton: .cancel({
+                                    return Alert(title: Text("삭제 알림"), message: Text("선택하신 즐겨찾기를 삭제하시겠습니까?"), primaryButton: .default(Text("취소"), action: {
                                         self.isMarkDelete = false
                                         self.selectedID = ""
                                     }), secondaryButton: .default(Text("확인"), action: {

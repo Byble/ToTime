@@ -17,5 +17,15 @@ class HomeMapViewEnvironment: ObservableObject {
             }
         }
     }
+    
+    var didIsOverTimeChange: (()->Void)?
+    
+    @Published var isOverTime: Bool? {
+        didSet {
+            if let didIsOverTimeChange = didIsOverTimeChange {
+                didIsOverTimeChange()
+            }
+        }
+    }
 }
 
