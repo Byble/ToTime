@@ -8,3 +8,5 @@
 1. Save Mark datas by Realm  - Done
 2. UI/UX Design - Progressing
 3. Refactoring MVVM Design Pattern - Progressing
+
+"Icon made by Swifticons from www.flaticon.com"
