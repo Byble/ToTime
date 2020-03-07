@@ -62,38 +62,3 @@ struct ProgressView: View {
         }
     }
 }
-
-//struct Label: View{
-//
-//    var body: some View {
-//
-//    }
-//}
-
-//struct OutLine: View {
-//    var percentage: CGFloat = 0
-//
-//    var body: some View {
-//
-//    }
-//}
-
-//struct Track: View {
-//
-//    var body: some View{
-//
-//    }
-//}
-
-//struct Pulsation: View{
-//
-//    var body: some View {
-//
-//    }
-//}
-
-//struct ProgressView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ProgressView(distance: Binding.constant(0))
-//    }
-//}

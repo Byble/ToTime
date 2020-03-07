@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		73ACA6494808595B9F60E529 /* Pods_ToTimeTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FBB280E91913EF4A3D4D83C5 /* Pods_ToTimeTests.framework */; };
 		8C2A383023D6D87000BBD1A1 /* AddMarkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A382F23D6D87000BBD1A1 /* AddMarkView.swift */; };
-		8C2A383223D743AD00BBD1A1 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2A383123D743AD00BBD1A1 /* ColorPickerView.swift */; };
 		8C2C655C23D8876D0001FCBE /* HomeMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C655B23D8876D0001FCBE /* HomeMap.swift */; };
 		8C2C655E23D8949D0001FCBE /* HomeMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C655D23D8949D0001FCBE /* HomeMapView.swift */; };
 		8C2C656423D8A5370001FCBE /* Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C656323D8A5370001FCBE /* Background.swift */; };
@@ -23,22 +22,25 @@
 		8C2C657623DC33D50001FCBE /* NavigationItemContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C657523DC33D50001FCBE /* NavigationItemContainer.swift */; };
 		8C2C657823DC8F220001FCBE /* HomeMapViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2C657723DC8F220001FCBE /* HomeMapViewEnvironment.swift */; };
 		8C52973A23EDCB46006A5B0C /* MarkData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C52973923EDCB46006A5B0C /* MarkData.swift */; };
-		8C52974623F05ACE006A5B0C /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C52974523F05ACE006A5B0C /* ColorExtension.swift */; };
+		8C7B8FDF2413A97C002DE0D4 /* ResourceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7B8FDE2413A97C002DE0D4 /* ResourceManager.swift */; };
+		8C7B8FE32413DDD2002DE0D4 /* MarkIcon in Resources */ = {isa = PBXBuildFile; fileRef = 8C7B8FE22413DDD2002DE0D4 /* MarkIcon */; };
+		8C7B8FE524140EF0002DE0D4 /* AddMarkViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7B8FE424140EF0002DE0D4 /* AddMarkViewModel.swift */; };
+		8C7B8FE724141018002DE0D4 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7B8FE624141018002DE0D4 /* ColorExtension.swift */; };
 		8C8217DE23F2F04A00AC1742 /* AnimationExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217DD23F2F04A00AC1742 /* AnimationExtension.swift */; };
-		8C8217E223F3ABA300AC1742 /* MarkRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E123F3ABA300AC1742 /* MarkRealm.swift */; };
 		8C8217E623F700D400AC1742 /* ProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E523F700D400AC1742 /* ProgressView.swift */; };
 		8C8217E823F7C23100AC1742 /* AddMarkMapViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8217E723F7C23100AC1742 /* AddMarkMapViewEnvironment.swift */; };
 		8C984D7F23D4A53800F1540C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D7E23D4A53800F1540C /* AppDelegate.swift */; };
 		8C984D8123D4A53800F1540C /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D8023D4A53800F1540C /* SceneDelegate.swift */; };
-		8C984D8323D4A53800F1540C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D8223D4A53800F1540C /* ContentView.swift */; };
+		8C984D8323D4A53800F1540C /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D8223D4A53800F1540C /* HomeView.swift */; };
 		8C984D8523D4A53900F1540C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C984D8423D4A53900F1540C /* Assets.xcassets */; };
 		8C984D8823D4A53900F1540C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C984D8723D4A53900F1540C /* Preview Assets.xcassets */; };
 		8C984D8B23D4A53900F1540C /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C984D8923D4A53900F1540C /* LaunchScreen.storyboard */; };
 		8C984D9623D4A53900F1540C /* ToTimeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984D9523D4A53900F1540C /* ToTimeTests.swift */; };
 		8C984DA123D4A53900F1540C /* ToTimeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C984DA023D4A53900F1540C /* ToTimeUITests.swift */; };
-		8CA50DD823D5F1D500A7D73B /* QGrid in Frameworks */ = {isa = PBXBuildFile; productRef = 8CA50DD723D5F1D500A7D73B /* QGrid */; };
-		8CA50DDA23D5FC3200A7D73B /* MarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA50DD923D5FC3200A7D73B /* MarkCell.swift */; };
 		8CA50DDC23D5FC6500A7D73B /* Mark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CA50DDB23D5FC6500A7D73B /* Mark.swift */; };
+		8CB01F102412921600B32C44 /* HomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01F0F2412921600B32C44 /* HomeViewModel.swift */; };
+		8CB01F14241292CA00B32C44 /* HomeViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01F13241292CA00B32C44 /* HomeViewModelProtocol.swift */; };
+		8CB01F1724129F5E00B32C44 /* MarkListRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CB01F1624129F5E00B32C44 /* MarkListRow.swift */; };
 		8CC0983D23DE941800382674 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC0983C23DE941800382674 /* ActivityIndicator.swift */; };
 		8CC0983F23DEAE7F00382674 /* ActivityIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */; };
 		8CF1B9AE23E6C66500B5F236 /* AddMarkMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */; };
@@ -46,7 +48,6 @@
 		8CF1B9B423E6D64B00B5F236 /* QuickMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */; };
 		8CF1B9B623E6D65100B5F236 /* QuickMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B523E6D65100B5F236 /* QuickMapView.swift */; };
 		8CF1B9B823E6D67100B5F236 /* QuickMapViewEnvironment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */; };
-		8CF1B9BA23E6FA9500B5F236 /* TestMarkCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */; };
 		8CF1B9BC23E7152E00B5F236 /* GoogleKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CF1B9BB23E7152E00B5F236 /* GoogleKey.swift */; };
 		9172D020ABDFF40B3ABDD774 /* Pods_ToTime.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 289EA592D8DD1A152501F122 /* Pods_ToTime.framework */; };
 		D2B120096A66B68DF8EDF34E /* Pods_ToTime_ToTimeUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8D00636536F7CF38AA341E55 /* Pods_ToTime_ToTimeUITests.framework */; };
@@ -77,7 +78,6 @@
 		5279BDD8019F65FCFF317641 /* Pods-ToTime.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToTime.release.xcconfig"; path = "Target Support Files/Pods-ToTime/Pods-ToTime.release.xcconfig"; sourceTree = "<group>"; };
 		649CA5084FBCC62F8C114F43 /* Pods-ToTimeTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToTimeTests.debug.xcconfig"; path = "Target Support Files/Pods-ToTimeTests/Pods-ToTimeTests.debug.xcconfig"; sourceTree = "<group>"; };
 		8C2A382F23D6D87000BBD1A1 /* AddMarkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkView.swift; sourceTree = "<group>"; };
-		8C2A383123D743AD00BBD1A1 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		8C2C655B23D8876D0001FCBE /* HomeMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMap.swift; sourceTree = "<group>"; };
 		8C2C655D23D8949D0001FCBE /* HomeMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeMapView.swift; sourceTree = "<group>"; };
 		8C2C656323D8A5370001FCBE /* Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Background.swift; sourceTree = "<group>"; };
@@ -91,15 +91,17 @@
 		8C52973923EDCB46006A5B0C /* MarkData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkData.swift; sourceTree = "<group>"; };
 		8C52973B23EDCB76006A5B0C /* Realm.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Realm.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C52973C23EDCB76006A5B0C /* RealmSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = RealmSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C52974523F05ACE006A5B0C /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		8C7B8FDE2413A97C002DE0D4 /* ResourceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResourceManager.swift; sourceTree = "<group>"; };
+		8C7B8FE22413DDD2002DE0D4 /* MarkIcon */ = {isa = PBXFileReference; lastKnownFileType = folder; path = MarkIcon; sourceTree = "<group>"; };
+		8C7B8FE424140EF0002DE0D4 /* AddMarkViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkViewModel.swift; sourceTree = "<group>"; };
+		8C7B8FE624141018002DE0D4 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
 		8C8217DD23F2F04A00AC1742 /* AnimationExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnimationExtension.swift; sourceTree = "<group>"; };
-		8C8217E123F3ABA300AC1742 /* MarkRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkRealm.swift; sourceTree = "<group>"; };
 		8C8217E523F700D400AC1742 /* ProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView.swift; sourceTree = "<group>"; };
 		8C8217E723F7C23100AC1742 /* AddMarkMapViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkMapViewEnvironment.swift; sourceTree = "<group>"; };
 		8C984D7B23D4A53800F1540C /* ToTime.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ToTime.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C984D7E23D4A53800F1540C /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C984D8023D4A53800F1540C /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		8C984D8223D4A53800F1540C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		8C984D8223D4A53800F1540C /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		8C984D8423D4A53900F1540C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8C984D8723D4A53900F1540C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		8C984D8A23D4A53900F1540C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -110,8 +112,10 @@
 		8C984D9C23D4A53900F1540C /* ToTimeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ToTimeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C984DA023D4A53900F1540C /* ToTimeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToTimeUITests.swift; sourceTree = "<group>"; };
 		8C984DA223D4A53900F1540C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8CA50DD923D5FC3200A7D73B /* MarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkCell.swift; sourceTree = "<group>"; };
 		8CA50DDB23D5FC6500A7D73B /* Mark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mark.swift; sourceTree = "<group>"; };
+		8CB01F0F2412921600B32C44 /* HomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModel.swift; sourceTree = "<group>"; };
+		8CB01F13241292CA00B32C44 /* HomeViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewModelProtocol.swift; sourceTree = "<group>"; };
+		8CB01F1624129F5E00B32C44 /* MarkListRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkListRow.swift; sourceTree = "<group>"; };
 		8CC0983C23DE941800382674 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicatorView.swift; sourceTree = "<group>"; };
 		8CF1B9AD23E6C66500B5F236 /* AddMarkMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMarkMap.swift; sourceTree = "<group>"; };
@@ -119,7 +123,6 @@
 		8CF1B9B323E6D64B00B5F236 /* QuickMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMap.swift; sourceTree = "<group>"; };
 		8CF1B9B523E6D65100B5F236 /* QuickMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMapView.swift; sourceTree = "<group>"; };
 		8CF1B9B723E6D67100B5F236 /* QuickMapViewEnvironment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickMapViewEnvironment.swift; sourceTree = "<group>"; };
-		8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestMarkCell.swift; sourceTree = "<group>"; };
 		8CF1B9BB23E7152E00B5F236 /* GoogleKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleKey.swift; sourceTree = "<group>"; };
 		8D00636536F7CF38AA341E55 /* Pods_ToTime_ToTimeUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_ToTime_ToTimeUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F5A1F8E8922AFBA826371179 /* Pods-ToTime-ToTimeUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ToTime-ToTimeUITests.release.xcconfig"; path = "Target Support Files/Pods-ToTime-ToTimeUITests/Pods-ToTime-ToTimeUITests.release.xcconfig"; sourceTree = "<group>"; };
@@ -132,7 +135,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C2C657423DC22EB0001FCBE /* SwiftyJSON in Frameworks */,
-				8CA50DD823D5F1D500A7D73B /* QGrid in Frameworks */,
 				8C2C657123DC227D0001FCBE /* Alamofire in Frameworks */,
 				9172D020ABDFF40B3ABDD774 /* Pods_ToTime.framework in Frameworks */,
 			);
@@ -185,7 +187,9 @@
 		8C52973823EDCB25006A5B0C /* Datas */ = {
 			isa = PBXGroup;
 			children = (
+				8C7B8FDE2413A97C002DE0D4 /* ResourceManager.swift */,
 				8C52973923EDCB46006A5B0C /* MarkData.swift */,
+				8CA50DDB23D5FC6500A7D73B /* Mark.swift */,
 			);
 			path = Datas;
 			sourceTree = "<group>";
@@ -193,18 +197,10 @@
 		8C52974423F05AC0006A5B0C /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				8C52974523F05ACE006A5B0C /* ColorExtension.swift */,
 				8C8217DD23F2F04A00AC1742 /* AnimationExtension.swift */,
+				8C7B8FE624141018002DE0D4 /* ColorExtension.swift */,
 			);
 			path = Extensions;
-			sourceTree = "<group>";
-		};
-		8C8217DA23F2D97D00AC1742 /* Realm */ = {
-			isa = PBXGroup;
-			children = (
-				8C8217E123F3ABA300AC1742 /* MarkRealm.swift */,
-			);
-			path = Realm;
 			sourceTree = "<group>";
 		};
 		8C984D7223D4A53800F1540C = {
@@ -232,7 +228,7 @@
 		8C984D7D23D4A53800F1540C /* ToTime */ = {
 			isa = PBXGroup;
 			children = (
-				8C8217DA23F2D97D00AC1742 /* Realm */,
+				8CB01F1524129EB800B32C44 /* Home */,
 				8C52974423F05AC0006A5B0C /* Extensions */,
 				8C52973823EDCB25006A5B0C /* Datas */,
 				8CC0984523DEF96800382674 /* EtcViews */,
@@ -241,8 +237,8 @@
 				8CC0984023DEF90200382674 /* Notification */,
 				8C984D7E23D4A53800F1540C /* AppDelegate.swift */,
 				8C984D8023D4A53800F1540C /* SceneDelegate.swift */,
-				8C984D8223D4A53800F1540C /* ContentView.swift */,
 				8C984D8423D4A53900F1540C /* Assets.xcassets */,
+				8C7B8FE22413DDD2002DE0D4 /* MarkIcon */,
 				8C984D8923D4A53900F1540C /* LaunchScreen.storyboard */,
 				8C984D8C23D4A53900F1540C /* Info.plist */,
 				8C984D8623D4A53900F1540C /* Preview Content */,
@@ -277,6 +273,17 @@
 			path = ToTimeUITests;
 			sourceTree = "<group>";
 		};
+		8CB01F1524129EB800B32C44 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				8CB01F13241292CA00B32C44 /* HomeViewModelProtocol.swift */,
+				8CB01F0F2412921600B32C44 /* HomeViewModel.swift */,
+				8C984D8223D4A53800F1540C /* HomeView.swift */,
+				8CB01F1624129F5E00B32C44 /* MarkListRow.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		8CC0984023DEF90200382674 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
@@ -308,9 +315,7 @@
 			children = (
 				8C2C656723DBDB1B0001FCBE /* MarkAnnotation.swift */,
 				8C2A382F23D6D87000BBD1A1 /* AddMarkView.swift */,
-				8CA50DD923D5FC3200A7D73B /* MarkCell.swift */,
-				8CA50DDB23D5FC6500A7D73B /* Mark.swift */,
-				8CF1B9B923E6FA9500B5F236 /* TestMarkCell.swift */,
+				8C7B8FE424140EF0002DE0D4 /* AddMarkViewModel.swift */,
 			);
 			path = MarkView;
 			sourceTree = "<group>";
@@ -323,7 +328,6 @@
 				8CC0983C23DE941800382674 /* ActivityIndicator.swift */,
 				8CC0983E23DEAE7F00382674 /* ActivityIndicatorView.swift */,
 				8C2C656523D8B6910001FCBE /* NavigationBarBack.swift */,
-				8C2A383123D743AD00BBD1A1 /* ColorPickerView.swift */,
 				8C8217E523F700D400AC1742 /* ProgressView.swift */,
 			);
 			path = EtcViews;
@@ -348,7 +352,6 @@
 			);
 			name = ToTime;
 			packageProductDependencies = (
-				8CA50DD723D5F1D500A7D73B /* QGrid */,
 				8C2C657023DC227D0001FCBE /* Alamofire */,
 				8C2C657323DC22EB0001FCBE /* SwiftyJSON */,
 			);
@@ -448,6 +451,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C7B8FE32413DDD2002DE0D4 /* MarkIcon in Resources */,
 				8C984D8B23D4A53900F1540C /* LaunchScreen.storyboard in Resources */,
 				8C984D8823D4A53900F1540C /* Preview Assets.xcassets in Resources */,
 				8C984D8523D4A53900F1540C /* Assets.xcassets in Resources */,
@@ -580,25 +584,25 @@
 			files = (
 				8C2C656E23DBFE190001FCBE /* LocationNotificationInfo.swift in Sources */,
 				8CF1B9AE23E6C66500B5F236 /* AddMarkMap.swift in Sources */,
-				8CA50DDA23D5FC3200A7D73B /* MarkCell.swift in Sources */,
-				8C8217E223F3ABA300AC1742 /* MarkRealm.swift in Sources */,
 				8C2A383023D6D87000BBD1A1 /* AddMarkView.swift in Sources */,
+				8CB01F1724129F5E00B32C44 /* MarkListRow.swift in Sources */,
 				8C984D7F23D4A53800F1540C /* AppDelegate.swift in Sources */,
-				8C2A383223D743AD00BBD1A1 /* ColorPickerView.swift in Sources */,
 				8C8217E623F700D400AC1742 /* ProgressView.swift in Sources */,
 				8C2C656C23DBFDF70001FCBE /* LocationNotificationSchedulerDelegate.swift in Sources */,
 				8C8217DE23F2F04A00AC1742 /* AnimationExtension.swift in Sources */,
 				8C2C655E23D8949D0001FCBE /* HomeMapView.swift in Sources */,
+				8C7B8FE724141018002DE0D4 /* ColorExtension.swift in Sources */,
 				8CF1B9BC23E7152E00B5F236 /* GoogleKey.swift in Sources */,
 				8C2C656823DBDB1B0001FCBE /* MarkAnnotation.swift in Sources */,
-				8C52974623F05ACE006A5B0C /* ColorExtension.swift in Sources */,
 				8CF1B9B023E6C66E00B5F236 /* AddMarkMapView.swift in Sources */,
-				8CF1B9BA23E6FA9500B5F236 /* TestMarkCell.swift in Sources */,
+				8CB01F102412921600B32C44 /* HomeViewModel.swift in Sources */,
 				8CF1B9B423E6D64B00B5F236 /* QuickMap.swift in Sources */,
 				8C52973A23EDCB46006A5B0C /* MarkData.swift in Sources */,
 				8CF1B9B823E6D67100B5F236 /* QuickMapViewEnvironment.swift in Sources */,
+				8C7B8FDF2413A97C002DE0D4 /* ResourceManager.swift in Sources */,
+				8C7B8FE524140EF0002DE0D4 /* AddMarkViewModel.swift in Sources */,
 				8C984D8123D4A53800F1540C /* SceneDelegate.swift in Sources */,
-				8C984D8323D4A53800F1540C /* ContentView.swift in Sources */,
+				8C984D8323D4A53800F1540C /* HomeView.swift in Sources */,
 				8C2C657623DC33D50001FCBE /* NavigationItemContainer.swift in Sources */,
 				8C2C655C23D8876D0001FCBE /* HomeMap.swift in Sources */,
 				8CF1B9B623E6D65100B5F236 /* QuickMapView.swift in Sources */,
@@ -610,6 +614,7 @@
 				8C2C656623D8B6910001FCBE /* NavigationBarBack.swift in Sources */,
 				8CC0983D23DE941800382674 /* ActivityIndicator.swift in Sources */,
 				8C2C657823DC8F220001FCBE /* HomeMapViewEnvironment.swift in Sources */,
+				8CB01F14241292CA00B32C44 /* HomeViewModelProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -781,11 +786,12 @@
 				DEVELOPMENT_TEAM = 3N72J4U62S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ToTime/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MGHouse.ToTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ToTimeDevelopment;
@@ -805,11 +811,12 @@
 				DEVELOPMENT_TEAM = 3N72J4U62S;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = ToTime/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.31;
 				PRODUCT_BUNDLE_IDENTIFIER = com.MGHouse.ToTime;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = ToTimeDevelopment;
@@ -984,11 +991,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 8C2C657223DC22EB0001FCBE /* XCRemoteSwiftPackageReference "SwiftyJSON" */;
 			productName = SwiftyJSON;
-		};
-		8CA50DD723D5F1D500A7D73B /* QGrid */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 8CA50DD623D5F1D500A7D73B /* XCRemoteSwiftPackageReference "QGrid" */;
-			productName = QGrid;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

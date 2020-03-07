@@ -14,9 +14,8 @@ import UIKit
 struct Mark: Identifiable, Equatable {
     var id = UUID()
     let name: String
-    let nameColor: UIColor
-    let bgColor: UIColor
     let location: CLLocation
     let address: String
+    let iconName: String
 }
 

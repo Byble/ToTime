@@ -20,8 +20,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func registerForRemoteNotification(){
         if #available(iOS 10.0, *){
             let center = UNUserNotificationCenter.current()
-            center.delegate = self as? UNUserNotificationCenterDelegate
-            center.requestAuthorization(options: [.sound, .alert]) { (granted, error) in
+            center.delegate = self
+            
+            center.requestAuthorization(options: [.sound, .alert, .badge]) { (granted, error) in
                 if error == nil{
                     DispatchQueue.main.async(execute: {
                       UIApplication.shared.registerForRemoteNotifications()

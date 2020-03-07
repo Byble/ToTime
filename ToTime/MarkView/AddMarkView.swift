@@ -8,29 +8,13 @@
 
 import SwiftUI
 import MapKit
-//import RealmSwift
 
 struct AddMarkView: View {
     @Environment (\.presentationMode) var presentationMode: Binding<PresentationMode>
-    
-    @State var isNavigationBarHidden: Bool = true
-    @State var locName = ""
-    @State var fullLoc = ""
-    @State var markName = ""
-    @State var bgColor = Color.black
-    @State var nameColor = Color.white
-    @State var location = CLLocation(latitude: 0.0, longitude: 0.0)
-    
-    @State var currentBgColor: UIColor = .clear
-    @State var currentNameColor: UIColor = .clear
-    
-    let defaultLoc = CLLocation(latitude: 0.0, longitude: 0.0)
-    
+          
     var didAddMark: (MarkData) -> ()
     
-    let lightGreyColor = Color(red: 239.0/255.0, green: 243.0/255.0, blue: 244.0/255.0, opacity: 1.0)
-    
-    @State var isAlert: Bool = false
+    @ObservedObject var addMarkViewModel = AddMarkViewModel()
     
     var body: some View {
         NavigationView{
@@ -39,39 +23,59 @@ struct AddMarkView: View {
                         HStack(){
                             Spacer()
                             Button(action: {
-                                if self.markName != "" && self.location != self.defaultLoc{
-//                                    self.didAddMark(.init(name: self.markName, nameColor: self.currentNameColor, bgColor: self.currentBgColor, location: self.location, address: self.fullLoc))
-                                    self.didAddMark(MarkData(name: self.markName, nameColor: self.currentNameColor.toHexString(), bgColor: self.currentBgColor.toHexString(), longitude: self.location.coordinate.longitude, latitude: self.location.coordinate.latitude, address: self.fullLoc))
-                                    
+                                if self.addMarkViewModel.markName != "" && self.addMarkViewModel.location != self.addMarkViewModel.defaultLoc{
+                                    self.didAddMark(MarkData(name: self.addMarkViewModel.markName, longitude: self.addMarkViewModel.location.coordinate.longitude, latitude: self.addMarkViewModel.location.coordinate.latitude, address: self.addMarkViewModel.fullLoc, iconName: self.addMarkViewModel.dataManager.names[self.addMarkViewModel.iconInx]))
+
                                     self.presentationMode.wrappedValue.dismiss()
                                 }else{
-                                    self.isAlert = true
+                                    self.addMarkViewModel.isAlert = true
                                 }
                             }){
                                 Text("완료")
                                     .font(.headline)
                                 .padding(15)
                             }
-                            .alert(isPresented: $isAlert, content: {
+                            .alert(isPresented: $addMarkViewModel.isAlert, content: {
                                 Alert(title: Text("오류 발생"), message: Text("완료하지 않은 항목이 있습니다."), dismissButton: .default(Text("완료"), action: {
-                                    self.isAlert = false
+                                    self.addMarkViewModel.isAlert = false
                                 }))
                             })
                         }
-                        
-                        VStack(alignment: .leading){
-                            VStack(alignment: .leading){
-                                Text("지번, 도로명, 건물명을\n입력하세요")
-                                .font(.system(size: 35))
-                                    .padding(.top, 20)
+                        VStack{
+                            HStack(alignment: .center){
+                                Text(addMarkViewModel.fullLoc != "" ? addMarkViewModel.fullLoc : "입력된 주소가 없습니다.")
                             }
-                            .padding(.leading, 10)
-                            .padding(.trailing, 10)
+
+                            VStack(alignment: .leading){
+                                Text("즐겨찾기 이름")
+                                .font(.system(size: 20))
+                                    .padding()
+                                    .padding(.top, 20)
+
+                                TextField("입력하세요", text: $addMarkViewModel.markName)
+                                    .padding(.all, 15)
+                                    .background(Color.lightGreyColor)
+                                    .foregroundColor(Color.black)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 5)
+                                            .stroke(Color.gray, lineWidth: 2)
+                                    )
+                                    .padding(.leading, 10)
+                                    .padding(.trailing, 10)
+                            }
+                            .padding(.bottom, 10)
+                        }
+                    
+                        VStack(alignment: .leading){
+                            Text("주소를 입력해주세요.")
+                                .font(.system(size: 20))
+                                .padding()
+                                .padding(.top, 20)
 
                             HStack(spacing: 5){
-                                TextField("입력하세요", text: $locName)
+                                TextField("입력하세요", text: $addMarkViewModel.locName)
                                     .padding(.all, 15)
-                                    .background(lightGreyColor)
+                                    .background(Color.lightGreyColor)
                                     .foregroundColor(Color.black)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
@@ -79,109 +83,70 @@ struct AddMarkView: View {
                                     )
 
                                 Spacer(minLength: 10)
-                                if !self.locName.isEmpty{
-
-                                    NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: $isNavigationBarHidden, setLocation: $location, setAddress: $fullLoc, isLoc: true, address: locName)) {
+                                if !self.addMarkViewModel.locName.isEmpty{
+                                    NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: self.$addMarkViewModel.isNavigationBarHidden, setLocation: self.$addMarkViewModel.location, setAddress: self.$addMarkViewModel.fullLoc, isLoc: true, address: self.addMarkViewModel.locName)) {
                                         Image(systemName: "magnifyingglass").foregroundColor(Color.gray)
                                         .padding(.all, 20)
                                         .overlay(
                                             RoundedRectangle(cornerRadius: 5)
                                             .stroke(Color.gray, lineWidth: 2)
                                         )
-                                        .background(lightGreyColor)
+                                        .background(Color.lightGreyColor)
                                     }
                                 }
-                                NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: $isNavigationBarHidden, setLocation: $location, setAddress: $fullLoc, isLoc: false, address: locName)) {
+
+                                NavigationLink(destination: AddMarkMapView(isNavigationBarHidden: self.$addMarkViewModel.isNavigationBarHidden, setLocation: self.$addMarkViewModel.location, setAddress: self.$addMarkViewModel.fullLoc, isLoc: false, address: self.addMarkViewModel.locName)) {
                                     Image(systemName: "map").foregroundColor(Color.gray)
                                     .padding(.all, 20)
                                     .overlay(
                                         RoundedRectangle(cornerRadius: 5)
                                         .stroke(Color.gray, lineWidth: 2)
                                     )
-                                    .background(lightGreyColor)
+                                    .background(Color.lightGreyColor)
                                 }
                             }
                             .padding(.leading, 10)
                             .padding(.trailing, 10)
-                            .padding(.bottom, 30)
+                            .padding(.bottom, 50)
                         }
-                        HStack(alignment: .center){
-                            Text(fullLoc != "" ? fullLoc : "입력된 주소가 없습니다.")
-                        }
-
-                        VStack(alignment: .leading){
-                            HStack(alignment: .center){
-                                Text("이름")
-                                    .padding()
+                    
+                        
+                        VStack{
+                            HStack{
+                                Image(uiImage: loadIcon(fileName: self.addMarkViewModel.dataManager.names[addMarkViewModel.iconInx])!)
+                                    .resizable()
+                                    .frame(width: UIScreen.main.bounds.width/11, height: UIScreen.main.bounds.width/11)
                                     .padding(.trailing, 30)
-                                TextField("입력하세요", text: $markName)
-                                    .padding(.all, 8)
-                                .foregroundColor(Color.black)
-                                .background(lightGreyColor)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: 5)
-                                        .stroke(Color.gray, lineWidth: 2)
-                                )
-                            }
-                            .padding()
-                            .padding(.trailing, 30)
-                        }
-                        .padding(.bottom, 10)
-
-                        VStack(alignment: .center){
-                            HStack(){
-                                Spacer()
-                                VStack(){
-                                    ZStack(alignment: .topTrailing) {
-                                        ColorPickerView(chosenColor: $currentBgColor)
+                                VStack{
+                                    Image(systemName: "arrowtriangle.up")
+                                        .padding(.bottom, 5)
+                                    Picker(selection: $addMarkViewModel.iconInx, label: Text("")) {
+                                        ForEach(0 ..< addMarkViewModel.dataManager.names.count){ index in
+                                            Text(getFileName(fullURL: self.addMarkViewModel.dataManager.names[index]))
+                                        }
                                     }
-                                    Text("배경 색상")
-                                    .padding()
+                                    .labelsHidden()
+                                    .frame(width: UIScreen.main.bounds.width/2, height: UIScreen.main.bounds.width/10)
+                                    .clipped()
+                                    Image(systemName: "arrowtriangle.down")
+                                        .padding(.top, 5)
                                 }
-                                Spacer()
-                                VStack(){
-                                    ZStack(alignment: .topTrailing) {
-                                        ColorPickerView(chosenColor: $currentNameColor)
-                                    }
-                                    Text("이름 색상")
-                                    .padding()
-                                }
-                                Spacer()
+                                
                             }
+                            
                         }
-                        Spacer()
-                        TestMarkCell(name: markName != "" ? markName : "버튼 이름", nameColor: Color(currentNameColor), bgColor: Color(currentBgColor))
                         Spacer()
                     }
                 }
                 .navigationBarTitle("")
-                .navigationBarHidden(isNavigationBarHidden)
+                .navigationBarHidden(addMarkViewModel.isNavigationBarHidden)
                 .onAppear{
-                    self.isNavigationBarHidden = true
+                    self.addMarkViewModel.isNavigationBarHidden = true
                 }
             }
         .onTapGesture {
-            self.endEditing()
+            self.addMarkViewModel.endEditing()
         }
-    }
-//    private func saveData(name: String, nameColor: Color, bgColor: Color, location: CLLocation, address: String){
-//        let lon: Double = location.coordinate.longitude
-//        let lat: Double = location.coordinate.latitude
-//        let nColor: String = nameColor.uiColor().hexStringFromColor()
-//        let bColor: String = bgColor.uiColor().hexStringFromColor()
-//
-//        let data = MarkData()
-//        data.name = name
-//        data.nameColor = nColor
-//        data.bgColor = bColor
-//        data.latitude = lat
-//        data.longitute = lon
-//        data.address = address
-//
-//        realmControll.saveData(obj: data)
-//    }
-    private func endEditing() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to:nil, from:nil, for:nil)
     }
 }
 
